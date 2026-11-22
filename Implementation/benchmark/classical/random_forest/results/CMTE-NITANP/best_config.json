@@ -1,0 +1,33 @@
+{
+  "model": "random_forest",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "max_depth": null,
+    "min_samples_leaf": 1
+  },
+  "val_macro_f1": 0.7873,
+  "search_seed": 42,
+  "grid": [
+    {
+      "max_depth": null,
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": null,
+      "min_samples_leaf": 3
+    },
+    {
+      "max_depth": 64,
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": 64,
+      "min_samples_leaf": 3
+    }
+  ],
+  "frozen_at": "2026-10-19T13:22:54+00:00",
+  "hash": "635d3511e813b5f99d44cfab3ecde5dfdb4d7ea8f008c195f9ec423655c9cebc"
+}

@@ -1,0 +1,25 @@
+{
+  "model": "linear_svc",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "C": 0.1
+  },
+  "val_macro_f1": 0.8096,
+  "search_seed": 42,
+  "grid": [
+    {
+      "C": 0.01
+    },
+    {
+      "C": 0.1
+    },
+    {
+      "C": 1.0
+    }
+  ],
+  "frozen_at": "2026-10-19T12:56:09+00:00",
+  "hash": "0cdd8027b0564b9b0f79bbc44f369242f2f4a3570d6664492d3dc6974a827410"
+}

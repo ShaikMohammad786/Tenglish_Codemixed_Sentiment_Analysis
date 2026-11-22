@@ -1,0 +1,104 @@
+{
+  "config": {
+    "splits_dir": "datasets/splits/CMTE-NITANP",
+    "text_field": "text_clean",
+    "epochs": 5,
+    "batch_size": 128,
+    "max_len": 40,
+    "emb_dim": 100,
+    "filters": 100,
+    "hidden": 64,
+    "dropout": 0.3,
+    "lr": 0.001,
+    "seed": 42,
+    "out_dir": "Implementation/baseline/cnn-bilstm/results/CMTE-NITANP"
+  },
+  "results": {
+    "A": {
+      "split": "A",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 17202,
+      "device": "cpu",
+      "best_val_macro_f1": 0.7804,
+      "test_accuracy": 0.7872,
+      "test_macro_f1": 0.7871,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.7707    0.8148    0.7921      1258\n     Neutral     0.7583    0.7881    0.7730      1095\n    Positive     0.8426    0.7550    0.7964      1106\n\n    accuracy                         0.7872      3459\n   macro avg     0.7905    0.7860    0.7871      3459\nweighted avg     0.7898    0.7872    0.7874      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7829,
+          "val_macro_f1": 0.7246
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.5799,
+          "val_macro_f1": 0.7548
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.482,
+          "val_macro_f1": 0.7667
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.3988,
+          "val_macro_f1": 0.7804
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.3215,
+          "val_macro_f1": 0.7745
+        }
+      ]
+    },
+    "B": {
+      "split": "B",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 17300,
+      "device": "cpu",
+      "best_val_macro_f1": 0.7884,
+      "test_accuracy": 0.7858,
+      "test_macro_f1": 0.7863,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.7605    0.8076    0.7833      1258\n     Neutral     0.7551    0.7772    0.7660      1095\n    Positive     0.8544    0.7694    0.8097      1106\n\n    accuracy                         0.7858      3459\n   macro avg     0.7900    0.7847    0.7863      3459\nweighted avg     0.7888    0.7858    0.7863      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7851,
+          "val_macro_f1": 0.7312
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.5833,
+          "val_macro_f1": 0.7744
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.4809,
+          "val_macro_f1": 0.7825
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.3998,
+          "val_macro_f1": 0.7884
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.3241,
+          "val_macro_f1": 0.7815
+        }
+      ]
+    }
+  },
+  "gap": {
+    "macro_f1": 0.0008,
+    "accuracy": 0.0014
+  }
+}

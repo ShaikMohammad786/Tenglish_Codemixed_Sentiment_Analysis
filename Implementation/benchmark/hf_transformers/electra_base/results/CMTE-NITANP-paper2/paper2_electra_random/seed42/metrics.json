@@ -1,0 +1,140 @@
+{
+  "run_id": "transformers/electra_base/CMTE-NITANP-paper2/paper2_electra_random/seed42",
+  "family": "transformers",
+  "model": "electra_base",
+  "phase": "final",
+  "config": "paper2_electra_random",
+  "seed": 42,
+  "dataset": "CMTE-NITANP-paper2",
+  "split_name": "A",
+  "text_field": "text_paper",
+  "hf": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/models/electra-base-discriminator",
+  "full_ft": true,
+  "hyper": {
+    "lr": 3e-05,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 32,
+    "epochs": 5,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "693ee24441a42dfa0e868c48c58e5da05195750cf94a775623a13277d99eead8",
+  "trainable_params": 109484547,
+  "total_params": 109484547,
+  "rows": {
+    "train": 25348,
+    "val": 1334,
+    "test": 6671
+  },
+  "best_epoch": 3,
+  "best_val_macro_f1": 0.8108,
+  "test": {
+    "accuracy": 0.8232648778294109,
+    "macro_f1": 0.8231160532516104,
+    "weighted_f1": 0.8229233763484504,
+    "mcc": 0.7349837370493756,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8322635857937527,
+        "recall": 0.8114309553608677,
+        "f1": 0.821715251373046
+      },
+      "Neutral": {
+        "precision": 0.8155246765692381,
+        "recall": 0.788693234476367,
+        "f1": 0.80188457008245
+      },
+      "Positive": {
+        "precision": 0.8210947930574098,
+        "recall": 0.8719281663516069,
+        "f1": 0.8457483382993353
+      }
+    },
+    "confusion": [
+      [
+        1945,
+        235,
+        217
+      ],
+      [
+        271,
+        1702,
+        185
+      ],
+      [
+        121,
+        150,
+        1845
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8323    0.8114    0.8217      2397\n     Neutral     0.8155    0.7887    0.8019      2158\n    Positive     0.8211    0.8719    0.8457      2116\n\n    accuracy                         0.8233      6671\n   macro avg     0.8230    0.8240    0.8231      6671\nweighted avg     0.8233    0.8233    0.8229      6671\n",
+    "ece": 0.0772813140872429,
+    "brier": 0.2746692015448761,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5000749512816669,
+        "accuracy": 0.9535371702637889,
+        "macro_f1": 0.9502109947978914
+      },
+      "0.6": {
+        "coverage": 0.6000599610253335,
+        "accuracy": 0.9402947789158131,
+        "macro_f1": 0.9389888457836827
+      },
+      "0.7": {
+        "coverage": 0.7000449707690002,
+        "accuracy": 0.9179871520342613,
+        "macro_f1": 0.9169010038331362
+      },
+      "0.8": {
+        "coverage": 0.8000299805126667,
+        "accuracy": 0.8935731684466929,
+        "macro_f1": 0.892809168811853
+      },
+      "0.9": {
+        "coverage": 0.9000149902563334,
+        "accuracy": 0.8590939373750833,
+        "macro_f1": 0.8586950113842521
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8232648778294109,
+        "macro_f1": 0.8231160532516104
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.731,
+      "val_macro_f1": 0.785,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5049,
+      "val_macro_f1": 0.7938,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.4004,
+      "val_macro_f1": 0.8108,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.3191,
+      "val_macro_f1": 0.804,
+      "best": false
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.2586,
+      "val_macro_f1": 0.7985,
+      "best": false
+    }
+  ],
+  "elapsed_s": 1000.0
+}

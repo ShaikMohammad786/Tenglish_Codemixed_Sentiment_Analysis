@@ -1,0 +1,20 @@
+[
+  {
+    "params": {
+      "n_neighbors": 5
+    },
+    "val_macro_f1": 0.7489
+  },
+  {
+    "params": {
+      "n_neighbors": 15
+    },
+    "val_macro_f1": 0.7663
+  },
+  {
+    "params": {
+      "n_neighbors": 30
+    },
+    "val_macro_f1": 0.7647
+  }
+]

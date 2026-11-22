@@ -1,0 +1,131 @@
+{
+  "dataset": "CMTE-NITANP",
+  "audited_at": "2026-10-19T12:11:14+00:00",
+  "splits": {
+    "A": {
+      "n_train": 27670,
+      "n_test": 3459,
+      "threshold": 0.8,
+      "num_perm": 128,
+      "lsh_candidate_pairs": 347,
+      "exact_pairs_ge_threshold": 345,
+      "exact_pairs_0.7_to_threshold": 2,
+      "lsh_false_positives_below_threshold": 0,
+      "max_exact_jaccard_train_test": 1.0,
+      "leaking_pairs_sample": [
+        {
+          "test_id": "nitanp_393",
+          "train_id": "nitanp_11400",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_395",
+          "train_id": "nitanp_30646",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_603",
+          "train_id": "nitanp_24283",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_659",
+          "train_id": "nitanp_9804",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_21395",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_3059",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_28477",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_3955",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_7592",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_29781",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_726",
+          "train_id": "nitanp_17716",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_1281",
+          "train_id": "nitanp_23799",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_1501",
+          "train_id": "nitanp_27418",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_4204",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_5608",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_23291",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_21286",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_16399",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_19732",
+          "jaccard": 1.0
+        },
+        {
+          "test_id": "nitanp_2008",
+          "train_id": "nitanp_28600",
+          "jaccard": 1.0
+        }
+      ]
+    },
+    "B": {
+      "n_train": 27670,
+      "n_test": 3459,
+      "threshold": 0.8,
+      "num_perm": 128,
+      "lsh_candidate_pairs": 0,
+      "exact_pairs_ge_threshold": 0,
+      "exact_pairs_0.7_to_threshold": 0,
+      "lsh_false_positives_below_threshold": 0,
+      "max_exact_jaccard_train_test": 0.0,
+      "leaking_pairs_sample": []
+    }
+  }
+}

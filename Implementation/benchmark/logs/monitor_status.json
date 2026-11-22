@@ -1,0 +1,13 @@
+{
+  "ts": "2026-10-20T07:07:09.125717+05:30",
+  "queue_pid": 1010869,
+  "queue_alive": false,
+  "finalizer_pid": 1104404,
+  "finalizer_alive": false,
+  "final_runs": 85,
+  "expected_final": 85,
+  "artifacts_done": true,
+  "failed_runs": [],
+  "recent_errors": [],
+  "restarts": 0
+}

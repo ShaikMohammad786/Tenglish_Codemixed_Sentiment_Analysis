@@ -1,0 +1,146 @@
+{
+  "run_id": "transformers/indicbert_lora/CMTE-NITANP/final/seed42",
+  "family": "transformers",
+  "model": "indicbert_lora",
+  "phase": "final",
+  "config": "final",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "ai4bharat/IndicBERTv2-MLM-only",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0004,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "950ea13b4c2977714077f01143b823e287a2d0335f89d265a76943c7850eab24",
+  "trainable_params": 592131,
+  "total_params": 278635782,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 4,
+  "best_val_macro_f1": 0.806,
+  "test": {
+    "accuracy": 0.813529921942758,
+    "macro_f1": 0.8133877797636361,
+    "weighted_f1": 0.8131226525042854,
+    "mcc": 0.7201995355491425,
+    "per_class": {
+      "Negative": {
+        "precision": 0.7817638266068759,
+        "recall": 0.8314785373608903,
+        "f1": 0.8058551617873652
+      },
+      "Neutral": {
+        "precision": 0.839632277834525,
+        "recall": 0.7506849315068493,
+        "f1": 0.7926711668273867
+      },
+      "Positive": {
+        "precision": 0.8283712784588442,
+        "recall": 0.8553345388788427,
+        "f1": 0.8416370106761566
+      }
+    },
+    "confusion": [
+      [
+        1046,
+        109,
+        103
+      ],
+      [
+        180,
+        822,
+        93
+      ],
+      [
+        112,
+        48,
+        946
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.7818    0.8315    0.8059      1258\n     Neutral     0.8396    0.7507    0.7927      1095\n    Positive     0.8284    0.8553    0.8416      1106\n\n    accuracy                         0.8135      3459\n   macro avg     0.8166    0.8125    0.8134      3459\nweighted avg     0.8150    0.8135    0.8131      3459\n",
+    "ece": 0.06235034055157049,
+    "brier": 0.2764324222362817,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9491329479768786,
+        "macro_f1": 0.9473550720250001
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9334939759036145,
+        "macro_f1": 0.9324339939582039
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.916150351094589,
+        "macro_f1": 0.9152358957639214
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8879653053848934,
+        "macro_f1": 0.8870821897909068
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8506264053967234,
+        "macro_f1": 0.8501733791122207
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.813529921942758,
+        "macro_f1": 0.8133877797636361
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7796,
+      "val_macro_f1": 0.7723,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5616,
+      "val_macro_f1": 0.7833,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5086,
+      "val_macro_f1": 0.7986,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4737,
+      "val_macro_f1": 0.806,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4467,
+      "val_macro_f1": 0.7977,
+      "best": false
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4195,
+      "val_macro_f1": 0.8007,
+      "best": false
+    }
+  ],
+  "elapsed_s": 1117.3
+}

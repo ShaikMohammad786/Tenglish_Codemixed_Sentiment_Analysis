@@ -1,0 +1,170 @@
+{
+  "run_id": "transformers/xlmr_lora/CMTE-NITANP/final/seed44",
+  "family": "transformers",
+  "model": "xlmr_lora",
+  "phase": "final",
+  "config": "final",
+  "seed": 44,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "xlm-roberta-base",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0004,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "950ea13b4c2977714077f01143b823e287a2d0335f89d265a76943c7850eab24",
+  "trainable_params": 1182723,
+  "total_params": 279228678,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 9,
+  "best_val_macro_f1": 0.8078,
+  "test": {
+    "accuracy": 0.8169991326973114,
+    "macro_f1": 0.8167438176185627,
+    "weighted_f1": 0.8165611027661042,
+    "mcc": 0.7254422095706596,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8072383949645948,
+        "recall": 0.8155802861685215,
+        "f1": 0.8113879003558719
+      },
+      "Neutral": {
+        "precision": 0.8351539225422046,
+        "recall": 0.7680365296803653,
+        "f1": 0.8001902949571836
+      },
+      "Positive": {
+        "precision": 0.8120237087214225,
+        "recall": 0.8670886075949367,
+        "f1": 0.8386532575426323
+      }
+    },
+    "confusion": [
+      [
+        1026,
+        112,
+        120
+      ],
+      [
+        152,
+        841,
+        102
+      ],
+      [
+        93,
+        54,
+        959
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8072    0.8156    0.8114      1258\n     Neutral     0.8352    0.7680    0.8002      1095\n    Positive     0.8120    0.8671    0.8387      1106\n\n    accuracy                         0.8170      3459\n   macro avg     0.8181    0.8169    0.8167      3459\nweighted avg     0.8176    0.8170    0.8166      3459\n",
+    "ece": 0.07836389405495107,
+    "brier": 0.27935553516622486,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9560693641618497,
+        "macro_f1": 0.9540936979522766
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9416867469879519,
+        "macro_f1": 0.9405316199087402
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.916150351094589,
+        "macro_f1": 0.9152439738248622
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8883267076255873,
+        "macro_f1": 0.8873391962848746
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8560873755220045,
+        "macro_f1": 0.8555618957950991
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8169991326973114,
+        "macro_f1": 0.8167438176185627
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.8035,
+      "val_macro_f1": 0.7505,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.6005,
+      "val_macro_f1": 0.7856,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5443,
+      "val_macro_f1": 0.785,
+      "best": false
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.5032,
+      "val_macro_f1": 0.7953,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4733,
+      "val_macro_f1": 0.8023,
+      "best": true
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4555,
+      "val_macro_f1": 0.7993,
+      "best": false
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.432,
+      "val_macro_f1": 0.803,
+      "best": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.4119,
+      "val_macro_f1": 0.8071,
+      "best": true
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.3968,
+      "val_macro_f1": 0.8078,
+      "best": true
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.3785,
+      "val_macro_f1": 0.8063,
+      "best": false
+    }
+  ],
+  "elapsed_s": 1633.5
+}

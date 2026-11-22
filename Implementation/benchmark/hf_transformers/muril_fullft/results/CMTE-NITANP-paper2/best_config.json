@@ -1,0 +1,17 @@
+{
+  "model": "muril_fullft",
+  "dataset": "CMTE-NITANP-paper2",
+  "split_name": "B",
+  "hyper": {
+    "lr": 2e-05,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 32,
+    "epochs": 4,
+    "batch_size": 8,
+    "grad_accum": 4
+  },
+  "frozen_from": "args",
+  "frozen_at": "2026-10-25T03:48:36+00:00",
+  "hash": "3549f1aa55917ea1ce4b29da8f845d2d56834de70fe2836d31fd69239ec92fe9"
+}

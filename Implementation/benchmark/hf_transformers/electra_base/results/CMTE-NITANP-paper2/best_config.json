@@ -1,0 +1,17 @@
+{
+  "model": "electra_base",
+  "dataset": "CMTE-NITANP-paper2",
+  "split_name": "B",
+  "hyper": {
+    "lr": 3e-05,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 32,
+    "epochs": 5,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_from": "args",
+  "frozen_at": "2026-10-25T06:20:22+00:00",
+  "hash": "693ee24441a42dfa0e868c48c58e5da05195750cf94a775623a13277d99eead8"
+}

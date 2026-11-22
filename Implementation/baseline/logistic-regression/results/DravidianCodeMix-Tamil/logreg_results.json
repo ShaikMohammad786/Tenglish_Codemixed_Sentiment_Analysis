@@ -1,0 +1,42 @@
+{
+  "config": {
+    "splits_dir": "datasets/splits/DravidianCodeMix-Tamil",
+    "text_field": "text_clean",
+    "seed": 42,
+    "out_dir": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/Implementation/baseline/logistic-regression/results"
+  },
+  "results": {
+    "A": {
+      "split": "A",
+      "rows": {
+        "train": 35216,
+        "val": 4402,
+        "test": 4402
+      },
+      "vocab": 14598,
+      "C": 10.0,
+      "val_macro_f1": 0.4477,
+      "test_accuracy": 0.6068,
+      "test_macro_f1": 0.4627,
+      "per_class": "                precision    recall  f1-score   support\n\nMixed_feelings     0.2708    0.1846    0.2195       493\n      Negative     0.4306    0.3442    0.3826       523\n      Positive     0.7052    0.8187    0.7577      2487\n     not-Tamil     0.6273    0.4833    0.5459       209\n unknown_state     0.4383    0.3812    0.4078       690\n\n      accuracy                         0.6068      4402\n     macro avg     0.4945    0.4424    0.4627      4402\n  weighted avg     0.5784    0.6068    0.5880      4402\n"
+    },
+    "B": {
+      "split": "B",
+      "rows": {
+        "train": 35216,
+        "val": 4402,
+        "test": 4402
+      },
+      "vocab": 14701,
+      "C": 10.0,
+      "val_macro_f1": 0.45,
+      "test_accuracy": 0.602,
+      "test_macro_f1": 0.4433,
+      "per_class": "                precision    recall  f1-score   support\n\nMixed_feelings     0.2508    0.1663    0.2000       493\n      Negative     0.4033    0.3270    0.3611       523\n      Positive     0.7097    0.8292    0.7648      2488\n     not-Tamil     0.6294    0.4327    0.5128       208\n unknown_state     0.4060    0.3536    0.3780       690\n\n      accuracy                         0.6020      4402\n     macro avg     0.4798    0.4218    0.4433      4402\n  weighted avg     0.5705    0.6020    0.5810      4402\n"
+    }
+  },
+  "gap": {
+    "macro_f1": 0.0194,
+    "accuracy": 0.0048
+  }
+}

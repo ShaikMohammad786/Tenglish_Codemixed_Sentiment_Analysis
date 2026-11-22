@@ -1,0 +1,1548 @@
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+1
+
+The Capacity Illusion: A Leakage-Audited 85-Run
+Benchmark of 21 Model Conﬁgurations for
+Romanized Telugu–English Sentiment Analysis
+First A. Author, Student Member, IEEE, Second B. Author, Member, IEEE, and Third C. Author, Senior
+Member, IEEE
+
+Abstract—Code-mixed Romanized Telugu–English (Tenglish)
+is a low-resource, orthographically noisy sentiment task. CMTENITANP, a 34,588-comment corpus, is a standard benchmark, yet
+published comparisons mix random and duplicate-aware splits,
+different tokenizers, and different tuning budgets. We present a
+leakage-audited benchmark of 21 model conﬁgurations and 85
+ﬁnal runs on a group-disjoint split (Split B) of CMTE-NITANP.
+The matrix spans 11 classical learners, three deep networks,
+and seven transformer conﬁgurations: MuRIL (LoRA and full
+ﬁne-tuning), plus LoRA for mBERT, Distil-mBERT, XLM-R,
+IndicBERTv2, and TeluguBERT. The best transformer, fully
+ﬁne-tuned MuRIL (238 M parameters), reaches 83.36 macroF1; a TF-IDF logistic regression with no pretrained parameters
+(16,892 word unigrams, 50.7 K coefﬁcients) reaches 82.93, and
+its word+character union reaches 83.24 in a single-seed ablation.
+The full-ﬁne-tuning gap is +0.0043 in mean macro-F1 and is
+not statistically signiﬁcant (paired-bootstrap ∆ = +0.0039, 95%
+CI [−0.0062, +0.0140], McNemar p = 0.44, Holm p = 0.82).
+Parameter count does not predict accuracy (Spearman ρ = 0.306,
+p = 0.504). A random split contains 345 exact Jaccard≥ 0.8
+train–test pairs and 203 test rows with a near-duplicate in train;
+the group-disjoint split contains zero. Feature ablation shows
+that the signal is unigram-lexical (word bigrams are worse),
+and WordPiece tokenization does not close the gap. Under
+orthographic perturbation, vowel elongation and combined noise
+cause the largest drops; zero-shot transfer to CMTET loses 0.18–
+0.26 macro-F1. We argue that the transformer advantage on this
+task is largely a capacity illusion: once leakage, tokenization,
+and tuning are controlled, a lexical linear model is statistically
+indistinguishable from a 238 M-parameter model at a small
+fraction of the cost. Splits, code, predictions, logs, and ﬁgures
+are provided in the project repository for reproduction.
+Index Terms—Code-mixed sentiment analysis, Telugu–
+English, benchmark, data leakage, linear models, transformers,
+parameter-efﬁcient ﬁne-tuning, reproducibility.
+
+I. I NTRODUCTION
+ODE-MIXING—the alternation of two or more languages within a single utterance—is the normal register
+of multilingual social media. In Telugu–English code-mixing,
+often written in Roman script (Tenglish), speakers mix English
+words with Romanized Telugu morphology (e.g., “movie chala
+bagundi” ‘the movie is very good’). Sentiment analysis of
+such text is difﬁcult for three reasons: the text is short, spelling
+is highly variable, and the same sentiment may be expressed
+through Telugu, English, or a hybrid construction.
+
+C
+
+Manuscript prepared October 2026. The authors are with the Department of
+Computer Science and Engineering, Institution Name, City, Country (e-mail:
+author@institution.edu).
+
+CMTE-NITANP [2] is a widely used 34,588-comment
+Telugu–English sentiment corpus with three classes (negative,
+neutral, positive). Recent work reports that transformer models
+improve over classical baselines by about 5% accuracy and 6%
+F1 on this corpus [2]. That claim is plausible, but it is difﬁcult
+to evaluate: the corpus contains substantial near-duplication,
+and reported experiments differ in split construction, tokenizer,
+and tuning budget. On a small, noisy, lexical-cue-driven task,
+each of these choices can move macro-F1 by an amount
+comparable to the reported transformer advantage.
+This paper asks a deliberately narrow question: on a leakfree split, with tuning held ﬁxed, does a 238 M-parameter
+transformer actually beat a linear model on CMTE-NITANP?
+We answer it with a controlled benchmark of 21 conﬁgurations
+and 85 ﬁnal runs, spanning classical learners, deep networks,
+LoRA adapters, and full ﬁne-tuning. We also audit the split
+itself with exact Jaccard matching, because near-duplicate
+leakage is the most common explanation for inﬂated socialmedia results [23].
+A. Research Questions
+RQ1 (ranking): Which model family attains the best
+macro-F1 on a leak-free split?
+• RQ2 (linear vs. transformer): Is the best transformer
+signiﬁcantly better than the best linear model?
+• RQ3 (capacity): Does parameter count predict macro-F1
+across the matrix?
+• RQ4 (robustness): How much does orthographic noise
+degrade each model?
+• RQ5 (cost): What accuracy is obtained per second of
+training?
+• RQ6 (calibration): Which models produce reliable conﬁdence estimates?
+• RQ7 (transfer): How well do models transfer zero-shot
+to CMTET?
+• RQ8 (abstention): Does conﬁdence-based abstention buy
+a useful risk–coverage trade-off?
+•
+
+B. Contributions
+1) A leakage-audited split. We cluster the corpus with
+MinHash/LSH over word 3-grams, build a group-disjoint
+Split B, and verify it with an exact Jaccard pass. Split A
+(random) contains 345 train–test pairs with exact Jaccard
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+≥ 0.8 and 203 test rows with a near-duplicate in train;
+Split B contains zero.
+2) A 21-conﬁguration, 85-run benchmark. We compare
+11 classical learners, three deep networks, six LoRA
+adapters, and MuRIL full ﬁne-tuning under a searchonce–freeze–then-seeds protocol. Seeds change only initialization and shufﬂing, never learning rate, batch size,
+or sequence length.
+3) A mechanistic decomposition. We isolate the effects
+of feature type (word unigram, word bigram, character n-gram, union), tokenization (word vs. WordPiece),
+adaptation regime (LoRA vs. full ﬁne-tuning), calibration, orthographic robustness, cross-corpus transfer, and
+hyperparameter sensitivity.
+4) A reproducible artifact. We provide the audited splits,
+per-run predictions, metrics, logs, LaTeX tables, and ﬁgures in the project repository. Every benchmark number
+in this paper is recomputed from the stored prediction
+ﬁles, not transcribed from a previous run.
+C. Main Findings
+On Split B, fully ﬁne-tuned MuRIL is the nominal winner at 83.36 macro-F1 (83.38 accuracy). A TF-IDF logistic regression with 16,892 word unigrams reaches 82.93; a
+word+character union reaches 83.24 in a single-seed ablation.
+The full-ﬁne-tuning gap is +0.0043 in mean macro-F1 and
+is not signiﬁcant (paired-bootstrap ∆ = +0.0039, 95% CI
+[−0.0062, +0.0140], McNemar p = 0.44, Holm p = 0.82).
+Parameter count is uncorrelated with accuracy (ρ = 0.306,
+p = 0.504). LoRA adapters (0.59–1.18 M trainable parameters) all trail the linear model. Word bigrams are worse
+than word unigrams, character n-grams are competitive, and
+WordPiece tokenization improves a CNN+BiLSTM only from
+78.63 to 79.45—far short of closing the gap. We conclude
+that the task’s signal is predominantly unigram-lexical, that a
+linear model is the correct inductive bias for it, and that the
+reported transformer advantage is consistent with an artifact
+of leakage, tuning, or both.
+II. R ELATED W ORK
+A. Code-Mixed Sentiment Analysis
+Sentiment analysis of code-mixed Indian social media was
+popularized by shared tasks such as SemEval-2020 Task 9
+[5] and the DravidianLangTech / DravidianCodeMix series
+[4]. Telugu–English resources include CMTE-IIITH [3] and
+CMTE-NITANP [2]. Rayala et al. introduced syllable-aware
+word embeddings for Telugu–English [1] and later evaluated
+transformer models on both corpora [2]. Their abstract reports
+a 5% accuracy and 6% F1 improvement over baselines on
+CMTE-NITANP. The absolute numbers are reported in the
+paper’s Tables 6–7; we treat the relative claim as reported
+context and do not quote absolute values that we could not
+verify from the accessible record.
+B. Transformers and Parameter-Efﬁcient Fine-Tuning
+Multilingual encoders—mBERT [6], XLM-R [7], MuRIL
+[8], IndicBERT [9], and TeluguBERT—are the default starting
+
+2
+
+point for low-resource Indic tasks. Full ﬁne-tuning updates
+all parameters; LoRA [10] freezes the base model and learns
+low-rank updates to selected projections, and 8-bit optimizers
+[11] make full ﬁne-tuning feasible on small GPUs. Parameterefﬁcient methods are attractive when compute is scarce, but
+their capacity is bounded by the rank and target modules.
+Whether that bound matters on a short, lexical task is an
+empirical question, and it is the question our LoRA-vs-fullﬁne-tuning comparison isolates.
+C. Linear and Lexical Baselines
+TF-IDF with linear classiﬁers remains a strong baseline for
+short-text sentiment [21], [20]. Character n-grams are robust
+to spelling variation [22], which is pervasive in Romanized
+Telugu. Linear models have high bias and low variance; on
+a small corpus with strong lexical cues, this bias can be an
+advantage rather than a limitation. Ensemble and boosting
+methods (random forests [14], gradient boosting [15], XGBoost [16], LightGBM [17]) are common alternatives, but they
+add capacity without adding lexical knowledge.
+D. Leakage and Evaluation Rigor
+Near-duplicate leakage is a well-known failure mode in
+data mining [23]: random splits place near-identical rows
+in both training and test, inﬂating estimates. Social-media
+corpora are especially vulnerable because retweets, copy-paste
+comments, and spelling variants create large near-duplicate
+clusters. Group-aware splitting removes this path. For signiﬁcance testing on a single ﬁxed test set, paired McNemar
+tests [24] with Holm correction [25] and paired bootstrap
+conﬁdence intervals [26] are appropriate; the Nadeau–Bengio
+correction [27] is designed for resampled cross-validation
+and is not used here. Calibration is measured with expected
+calibration error (ECE) and the Brier score [28].
+III. DATASET AND L EAKAGE AUDIT
+A. Corpus
+CMTE-NITANP contains 34,588 Romanized Telugu–
+English comments with three labels: negative (12,583), neutral
+(10,944), and positive (11,061). Comments are short: mean
+10.46 whitespace tokens (median 8, 95th percentile 30, maximum 148) and mean 67.4 characters (median 48). The training
+vocabulary contains 41,150 word types; 10.07% of test tokens
+are unseen in training. These statistics already suggest that the
+task is local and lexical rather than long-range.
+B. Preprocessing
+We apply a deterministic, signal-preserving pipeline. Unicode is normalized to NFC; HTML entities are unescaped;
+URLs and @mentions are replaced by placeholders; the # of
+a hashtag is dropped while the word is kept; whitespace is
+collapsed; and text is lowercased. Emojis, punctuation, digits,
+and character elongations are not removed, because they carry
+sentiment and because removing them would confound the
+robustness analysis. On top of this, we apply the 9,388-entry
+PLD variant→canonical dictionary released with the corpus,
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+TABLE I
+CMTE-NITANP S PLIT B STATISTICS . T OKEN AND CHARACTER COUNTS
+ARE COMPUTED ON T E X T _ N O R M .
+Split
+
+Rows
+
+Neg.
+
+Neu.
+
+Pos.
+
+Tokens
+
+Chars
+
+Train 27,670
+Val
+3,459
+Test
+3,459
+
+10,066
+1,259
+1,258
+
+8,755
+1,094
+1,095
+
+8,849
+1,106
+1,106
+
+10.46 / 8
+10.55 / 7
+10.50 / 7
+
+67.4 / 48
+67.9 / 47
+67.5 / 47
+
+10,944 11,061
+
+—
+
+—
+
+Total
+
+34,588 12,583
+
+word by word. Normalization changes 20,414 of 27,670 training rows (73.8%), which conﬁrms the orthographic variability
+of the source.
+C. Near-Duplicate Clustering and Splits
+We cluster the 34,588 rows with MinHash/LSH over word
+3-grams (128 permutations, Jaccard threshold 0.8). This yields
+33,313 clusters; 2,283 rows (6.60%) belong to a cluster of
+size > 1. Among multi-row clusters, 115 (11.41%) contain
+conﬂicting labels, covering 314 rows, with mean label entropy
+0.113 bits—a small but non-zero annotation-noise ﬂoor.
+We construct two splits of identical size (27,670 / 3,459 /
+3,459):
+• Split A (control, leaky): stratiﬁed random 80/10/10,
+ignoring cluster membership. 203 test rows (5.87%) have
+a near-duplicate in training.
+• Split B (treatment, leak-free): StratiﬁedGroupKFold
+with 10 folds, so an entire cluster lands in one split;
+whole clusters are then moved between train/val/test to
+match Split A’s sizes. 0 test rows have a near-duplicate
+in training.
+Split B is a genuine regroup, not Split A with twins moved:
+19.99% of training rows, 90.32% of validation rows, and
+89.65% of test rows change membership relative to Split A. An
+independent exact-Jaccard audit conﬁrms the MinHash result:
+Split A has 345 train–test pairs with exact Jaccard ≥ 0.8
+(maximum 1.0), while Split B has 0. The audit is stable across
+thresholds 0.7, 0.8, and 0.9 (Split A leakage 5.81–6.10%,
+Split B 0.00%). All experiments below use Split B.
+IV. E XPERIMENTAL P ROTOCOL
+A. Model Matrix
+The matrix contains 21 conﬁgurations in three families:
+• Classical (11): logistic regression, linear SVM [18],
+multinomial Naive Bayes, k-NN [19], dummy majority,
+random forest, extra trees, histogram gradient boosting,
+XGBoost, LightGBM, and a soft-voting ensemble of
+logistic regression, random forest, extra trees, and histogram gradient boosting.
+• Deep (3): TextCNN, BiLSTM, and CNN+BiLSTM,
+trained from scratch on a word-level vocabulary built
+from the training split (minimum frequency 2), with 100dimensional embeddings, dropout 0.3, Adam, learning
+rate 10−3 , batch 128, maximum length 64, and the same
+10-epoch/patience-2 schedule.
+
+3
+
+Transformers (7): MuRIL-base (LoRA and full ﬁnetuning), mBERT (LoRA), Distil-mBERT (LoRA), XLMR-base (LoRA), IndicBERTv2 (LoRA), and TeluguBERT
+(LoRA).
+Support-vector machines with an RBF kernel are excluded:
+probability calibration is quadratic and would be prohibitive on
+27,670 rows; the linear SVM is retained as the representative
+margin-based learner.
+•
+
+B. Search-Once, Freeze, Then Vary Seeds
+Classical and deep models are implemented with scikitlearn [13]; transformer models use HuggingFace Transformers
+[12] and PEFT. Every hyperparameter is selected once on
+the validation split with seed 42, frozen to a JSON ﬁle,
+and then reused unchanged for all ﬁnal seeds. Seeds vary
+only weight initialization, data order, and dropout masks; they
+never change learning rate, batch size, sequence length, LoRA
+rank, or epoch budget. This protocol directly addresses a
+common benchmark ﬂaw in which “seed runs” silently retune the model. Classical models use ﬁve seeds (k-NN uses
+one; deterministic learners have zero variance across seeds);
+deep models use ﬁve seeds; LoRA transformers use three seeds
+(42–44); MuRIL full ﬁne-tuning uses one seed because of its
+53.9-minute cost on the available GPU.
+C. Hyperparameters
+TF-IDF uses min_df= 2 and sublinear term frequency.
+The primary feature is word unigrams (16,892 features); the
+ablation adds word bigrams (40,604), character n-grams (2–5,
+85,764), and their union (126,368). Linear models use C =
+1.0 (selected on validation). Tree ensembles use 300 trees;
+boosting grids cover learning rate {0.05, 0.1} and 200–400
+iterations.
+LoRA uses r = 16, α = 32, dropout 0.1 on the query
+and value projections, learning rate 4 × 10−4 , weight decay
+0.01, warmup 0.06, batch 16 with gradient accumulation 2
+(effective 32), maximum length 64, 10 epochs, patience 2,
+minimum 3 epochs, and best-on-validation restoration. MuRIL
+full ﬁne-tuning uses learning rate 2 × 10−5 , 8-bit AdamW
+[11], batch 8 with accumulation 4 (effective 32), gradient
+checkpointing, and the same schedule. The full-ﬁne-tuning
+run uses 237,558,531 trainable parameters; LoRA adapters
+use 592,131 (MuRIL, mBERT, IndicBERT, TeluguBERT),
+887,811 (Distil-mBERT), and 1,182,723 (XLM-R).
+D. Metrics and Statistics
+The primary metric is macro-F1 on the 3,459-row test
+set. We also report accuracy, weighted-F1, MCC, ECE, Brier
+score, and risk–coverage curves. Conﬁdence intervals are 95%
+paired bootstrap intervals over the test set. Model comparisons use McNemar’s test on the paired correctness vectors,
+with Holm–Bonferroni correction across the 20 comparisons
+against logistic regression. We do not use the Nadeau–Bengio
+correction because there is a single ﬁxed split, not repeated
+cross-validation. All 85 ﬁnal runs are recomputed from stored
+preds.npz ﬁles; the recomputation produced zero mismatches.
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+4
+
+Fig. 1. Leakage audit. Left: exact Jaccard≥ 0.8 train–test pairs. Right: test rows with a near-duplicate in train. Split B removes both.
+
+E. Compute
+All runs use one NVIDIA RTX 2050 laptop GPU with 4 GB
+of memory (3.87 GB usable) and a parallel CPU lane. The
+longest run is MuRIL full ﬁne-tuning at 3,231.7 s (53.9 min);
+logistic regression takes 10.4 s, linear SVM 3.6 s, and multinomial Naive Bayes 0.2 s. The full matrix therefore trades
+more than 300× the compute for a statistically insigniﬁcant
+difference in macro-F1.
+V. R ESULTS
+A. Main Leaderboard (RQ1)
+Table II reports the ﬁnal leaderboard. MuRIL full ﬁnetuning is nominally ﬁrst at 83.36 macro-F1 (83.38 accuracy,
+MCC 0.750). Logistic regression is second at 82.93 (82.91
+accuracy, MCC 0.743). Linear SVM and soft voting follow
+at 82.31. The six LoRA adapters range from 80.92 (DistilmBERT) to 81.96 (TeluguBERT) and all trail the linear
+model. The deep models range from 78.46 (CNN+BiLSTM)
+to 79.83 (BiLSTM). The dummy majority classiﬁer obtains
+17.78 macro-F1 at 36.37 accuracy, conﬁrming that macro-F1
+is the appropriate primary metric for the near-balanced but not
+perfectly balanced test set.
+B. Linear vs. Transformer (RQ2)
+The paired comparison is unambiguous. Full ﬁne-tuning
+versus logistic regression gives a mean macro-F1 difference of +0.0043 (paired-bootstrap ∆ = +0.0039), 95%
+CI [−0.0062, +0.0140], McNemar p = 0.4367, Holm p =
+0.8158. The conﬁdence interval includes zero, and the point
+estimate is smaller than the seed-to-seed standard deviation
+of several LoRA models. In contrast, 14 of the 20 comparisons against logistic regression are signiﬁcant after Holm
+correction; the exceptions are full ﬁne-tuning, MuRIL LoRA,
+soft voting, linear SVM, IndicBERT LoRA, and TeluguBERT
+LoRA (16 are signiﬁcant at the uncorrected p < 0.05 level).
+The result is not that transformers are weak; it is that the
+
+best transformer and the best linear model are statistically
+tied. Table III reports all 20 comparisons; bold rows are not
+signiﬁcant after Holm correction.
+C. Capacity Does Not Predict Accuracy (RQ3)
+Across the seven transformer conﬁgurations, parameter
+count and macro-F1 are weakly and non-signiﬁcantly correlated (Spearman ρ = 0.306, p = 0.504; Fig. 3). The 136Mparameter Distil-mBERT (0.8092) is within 0.73 points of
+the 238M-parameter MuRIL LoRA (0.8165), and the 279Mparameter XLM-R LoRA (0.8103) is below both. Meanwhile
+a 50.7K-coefﬁcient linear model (0.8293) beats every LoRA
+adapter. Capacity is not the binding constraint; the binding
+constraint is whether the model can represent the lexical cues,
+and a linear model can.
+D. Per-Class Behavior
+Full ﬁne-tuning and logistic regression have almost identical
+per-class proﬁles: negative 0.8325 vs. 0.8234, neutral 0.8128
+vs. 0.8093, positive 0.8555 vs. 0.8552. Neutral is the hardest
+class for both, consistent with the absence of a strong lexical
+polarity cue. The full-ﬁne-tuning difference is concentrated
+in positive recall (0.8617 vs. 0.8490) and neutral F1 (0.8128
+vs. 0.8093); on negative recall it is slightly lower (0.8378 vs.
+0.8434). The two models make different errors but reach the
+same aggregate. The near-identical positive F1 (0.8555 vs.
+0.8552) is particularly striking: the 238M-parameter model
+buys no measurable improvement on the easiest class.
+E. Cost (RQ5)
+The compute gap is more than 300×. Logistic regression
+reaches 82.93 in 10.4 s; full ﬁne-tuning reaches 83.36 in
+3,231.7 s, a 310× cost for +0.43 points. Multinomial Naive
+Bayes reaches 81.21 in 0.2 s, the best F1-per-second in the
+matrix. The cost–beneﬁt frontier is populated by classical
+models up to 10.4 s; the only transformer on it is full ﬁnetuning at 3,231.7 s, whose 0.43-point gain costs 310×.
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+5
+
+TABLE II
+F INAL LEADERBOARD ON CMTE-NITANP S PLIT B ( MEAN ± STANDARD DEVIATION OVER FINAL SEEDS ; 95% PAIRED - BOOTSTRAP CI FOR
+MACRO -F1). “PARAMS ” IS TOTAL PARAMETERS ; FOR L O RA THE TRAINABLE COUNT IS IN PARENTHESES . C LASSICAL AND DEEP MODELS HAVE NO
+PRETRAINED PARAMETERS AND ARE MARKED “—”.
+
+#
+
+Model
+
+Family
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+
+MuRIL full-FT
+Logistic regression
+Linear SVM
+Soft voting
+TeluguBERT LoRA
+MuRIL LoRA
+IndicBERT LoRA
+Multinomial NB
+XLM-R LoRA
+mBERT LoRA
+Distil-mBERT LoRA
+Extra trees
+LightGBM
+Hist. gradient boost.
+BiLSTM
+Random forest
+TextCNN
+CNN+BiLSTM
+XGBoost
+k-NN
+Dummy majority
+
+Transformer
+Classical
+Classical
+Classical
+Transformer
+Transformer
+Transformer
+Classical
+Transformer
+Transformer
+Transformer
+Classical
+Classical
+Classical
+Deep
+Classical
+Deep
+Deep
+Classical
+Classical
+Classical
+
+Seeds
+1
+5
+5
+5
+3
+3
+3
+5
+3
+3
+3
+5
+5
+5
+5
+5
+5
+5
+5
+1
+5
+
+Macro-F1
+
+95% CI
+
+Acc.
+
+ECE
+
+Params
+
+Train (s)
+
+0.8336 ± 0.0000
+0.8293 ± 0.0000
+0.8231 ± 0.0000
+0.8231 ± 0.0007
+0.8196 ± 0.0043
+0.8165 ± 0.0080
+0.8131 ± 0.0025
+0.8121 ± 0.0000
+0.8103 ± 0.0066
+0.8098 ± 0.0044
+0.8092 ± 0.0022
+0.8074 ± 0.0017
+0.8048 ± 0.0000
+0.8018 ± 0.0013
+0.7983 ± 0.0042
+0.7968 ± 0.0022
+0.7928 ± 0.0036
+0.7846 ± 0.0040
+0.7770 ± 0.0024
+0.7755 ± 0.0000
+0.1778 ± 0.0000
+
+[0.8211, 0.8467]
+[0.8182, 0.8419]
+[0.8117, 0.8366]
+[0.8112, 0.8348]
+[0.8026, 0.8287]
+[0.8114, 0.8354]
+[0.8010, 0.8264]
+[0.7992, 0.8253]
+[0.7900, 0.8167]
+[0.7935, 0.8208]
+[0.7946, 0.8196]
+[0.7952, 0.8217]
+[0.7928, 0.8174]
+[0.7897, 0.8157]
+[0.7897, 0.8163]
+[0.7826, 0.8084]
+[0.7757, 0.8023]
+[0.7700, 0.7960]
+[0.7640, 0.7910]
+[0.7622, 0.7897]
+[0.1722, 0.1835]
+
+0.8338
+0.8291
+0.8231
+0.8229
+0.8193
+0.8167
+0.8131
+0.8130
+0.8102
+0.8099
+0.8093
+0.8072
+0.8049
+0.8016
+0.7983
+0.7970
+0.7929
+0.7846
+0.7771
+0.7759
+0.3637
+
+0.0702
+0.0680
+0.0431
+0.0677
+0.0634
+0.0540
+0.0589
+0.0861
+0.0547
+0.0657
+0.0541
+0.0548
+0.0132
+0.0220
+0.0603
+0.0429
+0.0872
+0.0641
+0.0759
+0.0665
+0.6363
+
+237.6M
+50.7K coeff.
+50.7K coeff.
+—
+238.2M (0.59M)
+238.2M (0.59M)
+278.6M (0.59M)
+50.7K coeff.
+279.2M (1.18M)
+178.4M (0.59M)
+136.2M (0.89M)
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+
+3231.7
+10.4
+3.6
+242.2
+1562.3
+1246.9
+1881.6
+0.2
+1365.2
+1391.0
+657.8
+63.8
+338.1
+64.7
+9.6
+39.0
+15.5
+40.0
+41.2
+2.2
+0.1
+
+TABLE III
+PAIRED COMPARISONS AGAINST LOGISTIC REGRESSION ( SEED 42). N EGATIVE ∆ MEANS THE MODEL IS WORSE THAN L OG R EG . B OLD ROWS ARE NOT
+SIGNIFICANT AFTER H OLM CORRECTION (p > 0.05).
+Model
+MuRIL full-FT
+MuRIL LoRA
+Linear SVM
+Soft voting
+TeluguBERT LoRA
+IndicBERT LoRA
+Multinomial NB
+Distil-mBERT LoRA
+Extra trees
+mBERT LoRA
+LightGBM
+XLM-R LoRA
+BiLSTM
+Hist. gradient boosting
+Random forest
+TextCNN
+CNN+BiLSTM
+XGBoost
+k-NN
+Dummy majority
+
+∆ macro-F1
+
+95% CI
+
+McNemar p
+
+Holm p
+
++0.0039
+-0.0058
+-0.0061
+-0.0069
+-0.0147
+-0.0164
+-0.0174
+-0.0221
+-0.0223
+-0.0235
+-0.0249
+-0.0264
+-0.0273
+-0.0274
+-0.0344
+-0.0402
+-0.0466
+-0.0523
+-0.0541
+-0.6518
+
+[-0.0062, +0.0140]
+[-0.0170, +0.0047]
+[-0.0120, -0.0005]
+[-0.0153, +0.0013]
+[-0.0263, -0.0034]
+[-0.0292, -0.0042]
+[-0.0265, -0.0074]
+[-0.0332, -0.0104]
+[-0.0318, -0.0128]
+[-0.0356, -0.0102]
+[-0.0341, -0.0156]
+[-0.0389, -0.0148]
+[-0.0386, -0.0170]
+[-0.0383, -0.0186]
+[-0.0441, -0.0238]
+[-0.0511, -0.0289]
+[-0.0576, -0.0356]
+[-0.0640, -0.0416]
+[-0.0652, -0.0424]
+[-0.6645, -0.6386]
+
+0.4367
+0.4079
+0.0622
+0.1495
+0.0203
+0.0141
+0.0023
+0.0006
+0.0000
+0.0003
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+
+0.8158
+0.8158
+0.2488
+0.4485
+0.1015
+0.0846
+0.0161
+0.0048
+0.0000
+0.0027
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+0.0000
+
+A. Feature Ablation
+
+voting (0.8227 → 0.8318). Tree models beneﬁt more from
+character features (XGBoost 0.7773 → 0.8091) but remain
+below the linear models.
+
+Table IV isolates the feature signal. For logistic regression,
+word unigrams give 0.8293, word bigrams give 0.8079, character 2–5-grams give 0.8276, and the union gives 0.8324. Two
+conclusions follow. First, the task is unigram-lexical: adding
+bigrams hurts (by 2.14 points), which is the signature of a
+high-bias, low-variance problem in which extra sparse features
+add noise. Second, character n-grams are nearly as strong as
+word unigrams and the union is the best classical conﬁguration
+(0.8324), only 0.12 points below full ﬁne-tuning. The same
+pattern holds for linear SVM (0.8231 → 0.8315) and soft
+
+B. Tokenization Is Not the Explanation
+A natural objection is that MuRIL’s WordPiece tokenizer fragments Romanized Telugu, so the transformer never
+sees the lexical cues. We tested this directly with the
+CNN+BiLSTM baseline, holding the architecture and training
+ﬁxed and swapping a word-level vocabulary for MuRIL’s
+WordPiece tokenizer. Word-level input gives 0.7863; WordPiece gives 0.7945. Tokenization helps, but by only 0.82
+points, and the result remains far below the linear model.
+
+VI. D IAGNOSTICS
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+6
+
+Fig. 2. Macro-F1 by model family on the leak-free Split B. Full ﬁne-tuned MuRIL is nominally ﬁrst, but the gap to the linear model is not signiﬁcant.
+
+TABLE IV
+F EATURE ABLATION ( TEST MACRO -F1, SEED 42). ∆ IS RELATIVE TO THE
+WORD - UNIGRAM BASELINE OF THE SAME MODEL .
+Model
+
+Word 1
+
+Word 1–2
+
+Char 2–5
+
+Union
+
+Logistic regression
+Linear SVM
+Soft voting
+Multinomial NB
+LightGBM
+XGBoost
+
+0.8293
+0.8231
+0.8227
+0.8121
+0.8048
+0.7773
+
+0.8079
+0.8223
+0.8214
+0.8207
+0.8052
+0.7742
+
+0.8276
+0.8313
+0.8231
+0.7953
+0.8234
+0.8062
+
+0.8324
+0.8315
+0.8318
+0.8169
+0.8277
+0.8091
+
+Subword fragmentation is therefore a real but secondary effect,
+not the cause of the linear–transformer gap.
+C. Adaptation Regime: LoRA vs. Full Fine-Tuning
+The LoRA/full-ﬁne-tuning contrast is the sharpest mechanistic result. MuRIL LoRA (0.59M trainable parameters)
+reaches 0.8165; MuRIL full ﬁne-tuning (237.6M trainable
+parameters) reaches 0.8336. The 1.71-point difference is larger
+than the gap between full ﬁne-tuning and logistic regression
+(0.43 points). In other words, most of the transformer’s apparent deﬁcit is adaptation, not architecture: a low-rank update
+
+cannot fully shift MuRIL’s formal-transliteration priors toward
+informal social-media spelling, while full ﬁne-tuning can. The
+cost of that adaptation is 400× more trainable parameters and
+53.9 minutes versus 20.8 minutes for LoRA.
+D. Calibration (RQ6)
+LightGBM is the best-calibrated model (ECE 0.0132),
+followed by histogram gradient boosting (0.0220) and random forest (0.0429). The transformers are poorly calibrated
+(MuRIL full-FT 0.0702, mBERT 0.0657, TeluguBERT 0.0634,
+MuRIL LoRA 0.0540), and logistic regression is 0.0680. The
+pattern is consistent with the literature: boosted trees and
+linear models with proper loss are better calibrated than overparameterized neural networks [28]. For a deployment that
+thresholds probabilities or abstains, this matters more than a
+0.4-point macro-F1 difference.
+E. Orthographic Robustness (RQ4)
+Table V and Fig. 6 report four perturbations applied to the
+test set: vowel elongation (e.g., bagundiii), voicing confusion
+(g↔v), aspiration removal (kh→k, th→t, etc.), and their
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+7
+
+Fig. 3. Parameter count versus test macro-F1 for the seven transformer conﬁgurations. The dashed line is logistic regression (0.8293), which has no pretrained
+parameters. The correlation is weak and non-signiﬁcant (ρ = 0.306, p = 0.504).
+
+Fig. 4. Accuracy versus training time. Classical models populate the frontier
+up to 10.4 s; full ﬁne-tuning is the only transformer at the far right.
+Fig. 5. Reliability diagrams on Split B. LightGBM is the best-calibrated
+model (ECE 0.0132); the transformers are systematically over-conﬁdent.
+
+F. Cross-Corpus Transfer (RQ7)
+combination. Aspiration is nearly harmless (∆ ≈ 0.001–
+0.002). Voicing costs 0.010–0.021. Vowel elongation is severe:
+0.132–0.207 for every model. The combined perturbation is
+worst: 0.160–0.236. Distil-mBERT has the smallest worstcase degradation (0.1599), while IndicBERT has the largest
+(0.2361). Full ﬁne-tuning is not more robust than LoRA
+(combined ∆ = 0.1765 vs. 0.1894 for MuRIL LoRA), so
+robustness is not a simple function of adaptation capacity. The
+practical implication is that vowel normalization should be part
+of the preprocessing pipeline, not an afterthought.
+
+Zero-shot transfer from CMTE-NITANP to CMTET (19,868
+rows, different annotation scheme and domain) is shown in
+Table VI and Fig. 7. IndicBERT is the best transfer model
+(0.6380), followed by TeluguBERT (0.6334) and MuRIL fullFT (0.6330). The drop from in-domain performance is 0.1754–
+0.2570; Distil-mBERT transfers worst (0.5503, drop 0.2570).
+Two patterns are notable. First, in-domain rank does not
+predict transfer rank: MuRIL full-FT is the best in-domain
+model but third in transfer, while IndicBERT is fourth indomain but ﬁrst in transfer. Second, all models degrade sharply
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+8
+
+TABLE V
+O RTHOGRAPHIC ROBUSTNESS : TEST MACRO -F1 ON CLEAN TEXT AND ON FOUR PERTURBED VERSIONS . ∆ IS THE DROP FROM CLEAN .
+Vowel
+
+Voicing
+
+Aspiration
+
+Combined
+
+Model
+
+Clean
+
+F1
+
+∆
+
+F1
+
+∆
+
+F1
+
+∆
+
+F1
+
+∆
+
+MuRIL full-FT
+MuRIL LoRA
+TeluguBERT LoRA
+IndicBERT LoRA
+mBERT LoRA
+Distil-mBERT
+XLM-R LoRA
+
+0.8336
+0.8242
+0.8151
+0.8134
+0.8069
+0.8066
+0.8037
+
+0.6822
+0.6706
+0.6390
+0.6068
+0.6667
+0.6660
+0.6716
+
+0.1514
+0.1536
+0.1761
+0.2066
+0.1402
+0.1406
+0.1321
+
+0.8170
+0.8050
+0.8051
+0.7988
+0.7870
+0.7853
+0.7907
+
+0.0166
+0.0192
+0.0100
+0.0146
+0.0199
+0.0213
+0.0131
+
+0.8322
+0.8228
+0.8139
+0.8116
+0.8047
+0.8050
+0.8015
+
+0.0014
+0.0014
+0.0012
+0.0017
+0.0022
+0.0016
+0.0023
+
+0.6571
+0.6348
+0.6122
+0.5773
+0.6454
+0.6467
+0.6402
+
+0.1765
+0.1894
+0.2030
+0.2361
+0.1615
+0.1599
+0.1636
+
+Fig. 6. Orthographic robustness. Vowel elongation and combined noise dominate the degradation; aspiration is nearly harmless.
+
+TABLE VI
+Z ERO - SHOT TRANSFER FROM CMTE-NITANP (S PLIT B) TO CMTET.
+“D ROP ” IS IN - DOMAIN MACRO -F1 MINUS CMTET MACRO -F1.
+Model
+IndicBERT LoRA
+TeluguBERT LoRA
+MuRIL full-FT
+MuRIL LoRA
+XLM-R LoRA
+mBERT LoRA
+Distil-mBERT
+
+In-domain CMTET Drop CMTET acc. Conﬂict
+0.8134
+0.8149
+0.8336
+0.8239
+0.8035
+0.8064
+0.8073
+
+0.6380
+0.6334
+0.6330
+0.6274
+0.5982
+0.5845
+0.5503
+
+0.1754
+0.1815
+0.2006
+0.1965
+0.2053
+0.2219
+0.2570
+
+0.6551
+0.6464
+0.6464
+0.6418
+0.6144
+0.6020
+0.5550
+
+0.3472
+0.3735
+0.3608
+0.3693
+0.3407
+0.3622
+0.3757
+
+epoch baseline 0.8171; the ﬁve-epoch budget also contributes).
+Increasing max_len to 96 is mixed (MuRIL 0.7805, mBERT
+0.8022, Distil-mBERT 0.8092 at ﬁve epochs) and does not beat
+the full-budget baseline. The batch-8 run reaches 0.7986 at ﬁve
+epochs, above the length-96 run (0.7805) but below the 10epoch baseline. The lesson is that the frozen conﬁguration is
+sensitive to the learning rate, and the obvious “more context”
+lever does not help within a short budget.
+
+H. Sequence Length and Truncation
+on the conﬂicting-label subset of CMTET (0.34–0.38), which
+indicates that label-scheme and annotation differences, not just
+domain shift, are responsible. Transfer is therefore not a free
+proxy for robustness.
+G. Hyperparameter Sensitivity
+Table VII reports an OFAT sensitivity study on validation,
+with a ﬁxed ﬁve-epoch budget and seed 42, for MuRIL,
+mBERT, and Distil-mBERT. Lowering the learning rate to
+2×10−4 produces the weakest runs (MuRIL 0.7693 vs. the 10-
+
+At max_len=64, only 3.15% of test examples are truncated. The truncation rate falls to 0.17% at 96 and 0.12%
+at 128; at 32 it is 13.76% and at 48 it is 7.08%. The
+subword length distribution has mean 17.9, 90th percentile
+40, 95th percentile 56, and maximum 137. A length-96 run is
+therefore a defensible next experiment—it removes almost all
+truncation at modest cost—but the sensitivity study does not
+show a length-96 gain within a ﬁve-epoch budget. We return
+to this point in the discussion of how to beat the published
+benchmark.
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+9
+
+Fig. 7. Zero-shot transfer to CMTET. In-domain rank does not predict transfer rank; IndicBERT transfers best despite being fourth in-domain.
+TABLE VII
+T RANSFORMER HYPERPARAMETER SENSITIVITY ( VALIDATION MACRO -F1, SEED 42, FIVE FIXED EPOCHS ). T HE BASELINE ROW USES THE FULL
+10- EPOCH BUDGET AND IS SHOWN FOR REFERENCE .
+Model
+
+Conﬁg
+
+MuRIL LoRA
+MuRIL LoRA
+MuRIL LoRA
+MuRIL LoRA
+mBERT LoRA
+mBERT LoRA
+mBERT LoRA
+mBERT LoRA
+Distil-mBERT
+Distil-mBERT
+Distil-mBERT
+Distil-mBERT
+
+baseline (main)
+lr2 × 10−4
+len 96
+batch 8
+baseline (main)
+lr2 × 10−4
+len 96
+batch 8
+baseline (main)
+lr2 × 10−4
+len 96
+batch 8
+
+LR
+
+Max len
+
+Batch
+
+Eff. batch
+
+Best ep.
+
+Val macro-F1
+
+4 × 10−4
+2 × 10−4
+4 × 10−4
+4 × 10−4
+4 × 10−4
+2 × 10−4
+4 × 10−4
+4 × 10−4
+4 × 10−4
+2 × 10−4
+4 × 10−4
+4 × 10−4
+
+64
+64
+96
+64
+64
+64
+96
+64
+64
+64
+96
+64
+
+16
+16
+16
+8
+16
+16
+16
+8
+16
+16
+16
+8
+
+32
+32
+32
+32
+32
+32
+32
+32
+32
+32
+32
+32
+
+8
+5
+5
+5
+3
+5
+5
+5
+6
+5
+5
+5
+
+0.8171
+0.7693
+0.7805
+0.7986
+0.8061
+0.7976
+0.8022
+0.7971
+0.8109
+0.8008
+0.8092
+0.8097
+
+TABLE VIII
+T RUNCATION AT DIFFERENT MAXIMUM SEQUENCE LENGTHS (M U RIL
+TOKENIZER , TEST SPLIT ).
+Max len
+
+Truncated test examples (%)
+
+32
+48
+64
+96
+128
+
+13.76
+7.08
+3.15
+0.17
+0.12
+
+VII. D ISCUSSION
+A. Why Does the Linear Model Win?
+Five mechanisms, each supported by a separate experiment,
+explain the result.
+1) The task is local and lexical. Comments have median
+8 tokens and median 48 characters. Polarity is carried
+by a small set of high-frequency cues (bagundi, chala,
+keka, waste, bore). A linear model over word unigrams
+
+learns these cues directly; a transformer must learn them
+through many layers and a much larger hypothesis space.
+2) Character n-grams absorb orthographic variation.
+Romanized Telugu has many spellings for the same
+word (bagundi, bavundhi, baagundhi). Character 2–5grams share substrings across variants; WordPiece splits
+them into near-disjoint pieces. The feature ablation (char
+0.8276, union 0.8324) and the tokenizer experiment
+(0.7863 → 0.7945) quantify both sides of this mechanism.
+3) Small data favors high bias. With 27,670 training rows
+and a noisy label ﬂoor, the variance of a 238M-parameter
+model is a liability. Full ﬁne-tuning’s training loss falls
+from 0.886 to 0.242 while validation peaks at epoch
+4 (0.8255) and never recovers—textbook overﬁtting.
+LoRA reduces variance but also reduces capacity to
+0.59M parameters, and it lands at 0.8165.
+4) Pretraining register mismatch. MuRIL’s Romanized
+pretraining is formal and rule-based (Wikipedia, Dakshina), whereas Tenglish comments are informal and
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+10
+
+Fig. 8. Hyperparameter sensitivity (validation macro-F1, seed 42, ﬁve ﬁxed epochs). Lowering the learning rate hurts; length 96 and batch 8 do not beat the
+full-budget baseline.
+
+phonetically spelled. Full ﬁne-tuning can shift the representation; a low-rank update cannot shift it enough.
+The 1.71-point LoRA/full-FT gap is the price of that
+mismatch.
+5) More parameters are redundant once the cues are
+represented. The capacity–accuracy correlation is weak
+(ρ = 0.306) and non-signiﬁcant. The 279M-parameter
+XLM-R LoRA (0.8103) is below the 238M-parameter
+MuRIL LoRA (0.8165), and both are below a 50.7Kcoefﬁcient linear model. Capacity is not the bottleneck.
+B. A Linguistic Reading: The Matrix-Language Frame
+Myers-Scotton’s Matrix Language Frame (MLF) model
+[29] distinguishes the matrix language, which supplies the
+morphosyntactic frame, from embedded-language islands. In
+Tenglish, Telugu typically supplies the frame and English
+supplies content islands, while sentiment is carried by a
+small set of content morphemes (bagundi ‘good’, waste, keka
+‘superb’) and system morphemes (-ledu ‘not’, kaadhu ‘is
+not’, kani ‘but’). These cues are morpheme-local and largely
+order-insensitive: their polarity does not depend on long-range
+syntactic composition. This is exactly the regime in which a
+unigram/character model has the right inductive bias, and it
+is consistent with the ﬁnding that word bigrams add noise
+rather than signal. MLF is a grammatical theory, not a theory
+of model capacity; it does not by itself explain why a 238Mparameter model fails to beat a linear one. It does explain why
+the linear model’s hypothesis space is well matched to the cue
+structure, which is the ﬁrst half of the explanation.
+C. The Capacity Illusion
+We use the term capacity illusion for the inferential error of
+attributing a leaderboard gap to model capacity when the gap
+
+is produced by leakage, tokenization, or tuning. In our matrix,
+the raw ordering “238M > 50K” survives, but its magnitude
+collapses from a reported 5% accuracy improvement to a
+non-signiﬁcant 0.43-point macro-F1 gap once (i) the split is
+group-disjoint, (ii) tokenization is tested as a separate factor
+rather than confounded with architecture, and (iii) the linear
+baseline is tuned with the same search budget. The illusion is
+not that transformers are bad; it is that the comparison was
+not controlled. A benchmark that reports only the winning
+transformer, without a tuned linear baseline and a leakage
+audit, cannot distinguish “the model learned the task” from
+“the split leaked the task”.
+D. Relation to Published Claims
+Rayala and Seshadri report a 5% accuracy and 6% F1 improvement of transformers over baselines on CMTE-NITANP
+[2]. Our leak-free comparison does not reproduce a gap of that
+size. There are three non-exclusive explanations: their split
+may differ from ours; their baseline may be untuned; or their
+transformer may use a different adaptation regime. We cannot
+adjudicate without their exact split and baseline numbers,
+which are not available in the accessible record. What we can
+say is that on a split with zero exact Jaccard≥ 0.8 train–test
+pairs, with a tuned linear baseline and a frozen hyperparameter
+protocol, the transformer advantage is 0.43 macro-F1 points
+and is not signiﬁcant. Any claim of a 5–6% advantage should
+therefore be accompanied by a split audit and a tuned linear
+baseline.
+E. How to Beat the Benchmark
+If the goal is to exceed the best published number rather
+than to explain it, the evidence points to four levers, in order
+of expected value:
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+1) Ensemble the full-ﬁne-tuned transformer with the
+linear model. The two models make different errors
+(negative vs. positive recall), and a soft-voting ensemble
+of diverse strong models is the cheapest lever likely to
+add a meaningful margin.
+2) Full ﬁne-tuning at max_len=96. Truncation falls from
+3.15% to 0.17%, and full ﬁne-tuning has the capacity to
+exploit the extra context. Run three seeds and report the
+mean.
+3) Tune the full-ﬁne-tuning learning rate. The sensitivity
+study shows that 2 × 10−4 is harmful for LoRA; full
+ﬁne-tuning at 2 × 10−5 was chosen from a small grid.
+A three-point grid (1, 2, 3 × 10−5 ) with early stopping
+is the next step.
+4) Try XLM-R full ﬁne-tuning on a larger GPU. XLMR has the strongest multilingual coverage in our LoRA
+matrix, but its 279M parameters at full ﬁne-tuning exceed the 4 GB budget. A 16 GB T4 makes this feasible.
+Any claim of beating the published number must use the same
+split and metric, report conﬁdence intervals, and audit the split.
+Otherwise the new number is not comparable.
+
+F. Recommendations for Practitioners
+Always report a tuned TF-IDF linear baseline. It is fast,
+strong, and calibrated; on this task it is within noise of
+the best transformer.
+• Audit the split with exact Jaccard matching, not only
+MinHash. MinHash ﬂagged 203 test rows (5.87%); the
+exact audit found 345 train–test pairs at or above 0.8,
+so a MinHash pass alone is not a substitute for exact
+veriﬁcation.
+• Prefer character n-grams or a word+character union when
+spelling is variable; word bigrams can hurt.
+• If using a transformer, prefer full ﬁne-tuning over lowrank adaptation when the domain mismatch is large and
+the GPU allows it; LoRA is a compute compromise, not
+a free lunch.
+• Report calibration and robustness alongside accuracy. The
+best macro-F1 model is not the best-calibrated or the most
+robust model.
+•
+
+VIII. T HREATS TO VALIDITY
+a) Internal validity.: Split B is constructed with a speciﬁc clustering threshold (0.8) and shingle deﬁnition (word
+3-grams). The audit is stable across 0.7–0.9, but a different
+shingle deﬁnition could produce a different partition. The label
+noise ﬂoor (115 conﬂicting clusters, 314 rows) is small but
+non-zero and affects all models equally.
+b) External validity.: The study covers one language pair
+and one corpus. CMTE-NITANP is a comment corpus, not
+Twitter; the lexical cues and spelling conventions may differ
+on other platforms. The cross-corpus experiment is a partial
+check, but CMTET has a different label scheme and domain,
+so it is not a clean domain-shift estimate.
+
+11
+
+c) Construct validity.: Macro-F1 treats the three classes
+equally, which is appropriate for the near-balanced test set but
+may not reﬂect deployment costs. Neutral is the hardest class;
+a deployment that cares disproportionately about neutral would
+need a different metric.
+d) Statistical validity.: Full ﬁne-tuning has one seed
+because of its cost. Its conﬁdence interval is therefore a test-set
+bootstrap interval, not a seed-to-seed interval. The linear model
+has ﬁve seeds but zero variance because it is deterministic; its
+interval is also a test-set bootstrap interval. The comparison is
+paired and uses McNemar, which is appropriate for a single
+ﬁxed test set, but it does not capture seed variability of
+the transformer. A three-seed full-ﬁne-tuning run is the main
+missing experiment.
+e) Compute validity.: The 4 GB GPU forces batch 8 with
+accumulation and 8-bit AdamW for full ﬁne-tuning. A larger
+GPU might change the optimal batch and learning rate. The
+sensitivity study partially controls for this, but it does not
+eliminate the constraint.
+IX. C ONCLUSION
+We presented a leakage-audited benchmark of 21 conﬁgurations and 85 runs for Romanized Telugu–English sentiment
+on CMTE-NITANP. On a group-disjoint split with zero exact
+Jaccard≥ 0.8 train–test pairs, a 238M-parameter fully ﬁnetuned MuRIL reaches 83.36 macro-F1; a TF-IDF logistic
+regression with no pretrained parameters reaches 82.93 (83.24
+with a word+character union in a single-seed ablation). The
+difference is not statistically signiﬁcant. Parameter count does
+not predict accuracy, LoRA adapters trail the linear model,
+word bigrams are worse than unigrams, and WordPiece tokenization does not close the gap. The transformer advantage
+reported on this corpus is therefore consistent with a capacity
+illusion produced by uncontrolled splits, tokenization, and
+tuning. The practical recipe is unglamorous: audit the split,
+tune a linear baseline, use character n-grams, and only then
+decide whether a transformer’s small and fragile gain is worth
+300× the compute.
+R EPRODUCIBILITY
+The
+audited
+splits
+are
+in
+datasets/splits/CMTE-NITANP/. The benchmark
+code, per-run predictions, metrics, logs, and ﬁgures are
+in Implementation/benchmark/. The primary
+result ﬁles are results/master_results.csv,
+results/seed_summary.csv,
+results/stats/pairwise_vs_logreg.csv,
+and
+reports/REPORT.md. All benchmark numbers in this
+paper are recomputed from the stored prediction ﬁles; the
+recomputation check found zero mismatches across the 85
+ﬁnal runs. The CMTE-NITANP corpus is publicly available at
+https://github.com/rayalaupendar/Code-Mixed-Tel-Eng-34k;
+no new human-subjects data were collected.
+R EFERENCES
+[1] U. R. Rayala, K. Seshadri, and N. B. Sristy, “Sentiment analysis of codemixed Telugu–English data leveraging syllable and word embeddings,”
+ACM Trans. Asian Low-Resour. Lang. Inf. Process., vol. 22, no. 10,
+pp. 1–30, 2023, doi: 10.1145/3620670.
+
+IEEE TRANSACTIONS ON AFFECTIVE COMPUTING (UNDER REVIEW)
+
+[2] U. R. Rayala and K. Seshadri, “Sentiment analysis of code-mixed
+Telugu–English text using transformers,” J. Comput. Social Sci., vol. 9,
+art. 2, 2026, doi: 10.1007/s42001-025-00434-3.
+[3] S. S. V. Kusampudi, P. Sathineni, and R. Mamidi, “Sentiment analysis in
+code-mixed Telugu–English text with unsupervised data normalization,”
+in Proc. Int. Conf. Recent Advances in Natural Language Processing
+(RANLP), 2021, pp. 753–760.
+[4] B. R. Chakravarthi, R. Priyadharshini, V. Muralidaran, N. Jose,
+S. Suryawanshi, E. Sherly, and J. P. McCrae, “DravidianCodeMix:
+Sentiment analysis and offensive language identiﬁcation dataset for
+Dravidian languages in code-mixed text,” Lang. Resour. Eval., 2022,
+doi: 10.1007/s10579-022-09583-7.
+[5] P. Patwa, G. Aguilar, S. Kar, S. Pandey, S. PYKL, B. Gambäck,
+T. Chakraborty, T. Solorio, and A. Das, “SemEval-2020 Task 9:
+Overview of sentiment analysis of code-mixed tweets,” in Proc. 14th
+Workshop on Semantic Evaluation (SemEval), 2020, pp. 774–790.
+[6] J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, “BERT: Pre-training
+of deep bidirectional transformers for language understanding,” in Proc.
+NAACL-HLT, 2019, pp. 4171–4186.
+[7] A. Conneau, K. Khandelwal, N. Goyal, V. Chaudhary, G. Wenzek,
+F. Guzmán, E. Grave, M. Ott, L. Zettlemoyer, and V. Stoyanov, “Unsupervised cross-lingual representation learning at scale,” in Proc. ACL,
+2020, pp. 8440–8451.
+[8] S. Khanuja et al., “MuRIL: Multilingual representations for Indian
+languages,” arXiv:2103.10730, 2021.
+[9] D. Kakwani, A. Kunchukuttan, S. Goyal, G. N.C., A. Bhattacharyya,
+M. M. Khapra, and P. Kumar, “IndicNLPSuite: Monolingual corpora,
+evaluation benchmarks and pre-trained multilingual language models for
+Indian languages,” in Findings of EMNLP, 2020, pp. 4948–4961.
+[10] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang,
+and W. Chen, “LoRA: Low-rank adaptation of large language models,”
+in Proc. ICLR, 2022.
+[11] T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, “QLoRA:
+Efﬁcient ﬁnetuning of quantized LLMs,” in Proc. NeurIPS, 2023.
+[12] T. Wolf et al., “Transformers: State-of-the-art natural language processing,” in Proc. EMNLP: System Demonstrations, 2020, pp. 38–45.
+[13] F. Pedregosa et al., “Scikit-learn: Machine learning in Python,” J. Mach.
+Learn. Res., vol. 12, pp. 2825–2830, 2011.
+[14] L. Breiman, “Random forests,” Mach. Learn., vol. 45, no. 1, pp. 5–32,
+2001.
+[15] J. H. Friedman, “Greedy function approximation: A gradient boosting
+machine,” Ann. Statist., vol. 29, no. 5, pp. 1189–1232, 2001.
+[16] T. Chen and C. Guestrin, “XGBoost: A scalable tree boosting system,”
+in Proc. ACM SIGKDD, 2016, pp. 785–794.
+[17] G. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, Q. Ye, and T.-Y.
+Liu, “LightGBM: A highly efﬁcient gradient boosting decision tree,” in
+Proc. NeurIPS, 2017, pp. 3146–3154.
+[18] C. Cortes and V. Vapnik, “Support-vector networks,” Mach. Learn.,
+vol. 20, no. 3, pp. 273–297, 1995.
+[19] T. Cover and P. Hart, “Nearest neighbor pattern classiﬁcation,” IEEE
+Trans. Inf. Theory, vol. 13, no. 1, pp. 21–27, 1967.
+[20] C. D. Manning, P. Raghavan, and H. Schütze, Introduction to Information Retrieval. Cambridge, U.K.: Cambridge Univ. Press, 2008.
+[21] G. Salton and C. Buckley, “Term-weighting approaches in automatic
+text retrieval,” Inf. Process. Manage., vol. 24, no. 5, pp. 513–523, 1988.
+[22] W. B. Cavnar and J. M. Trenkle, “N-gram-based text categorization,”
+in Proc. 3rd Annu. Symp. Document Analysis and Information Retrieval
+(SDAIR), 1994, pp. 161–175.
+[23] S. Kaufman, S. Rosset, C. Perlich, and O. Stitelman, “Leakage in data
+mining: Formulation, detection, and avoidance,” ACM Trans. Knowl.
+Discov. Data, vol. 6, no. 4, pp. 1–21, 2012.
+[24] T. G. Dietterich, “Approximate statistical tests for comparing supervised
+classiﬁcation learning algorithms,” Neural Comput., vol. 10, no. 7,
+pp. 1895–1923, 1998.
+[25] S. Holm, “A simple sequentially rejective multiple test procedure,”
+Scand. J. Statist., vol. 6, no. 2, pp. 65–70, 1979.
+[26] B. Efron and R. J. Tibshirani, An Introduction to the Bootstrap. New
+York, NY, USA: Chapman & Hall, 1993.
+[27] C. Nadeau and Y. Bengio, “Inference for the generalization error,” Mach.
+Learn., vol. 52, no. 3, pp. 239–281, 2003.
+[28] C. Guo, G. Pleiss, Y. Sun, and K. Q. Weinberger, “On calibration of
+modern neural networks,” in Proc. ICML, 2017, pp. 1321–1330.
+[29] C. Myers-Scotton, Contact Linguistics: Bilingual Encounters and Grammatical Outcomes. Oxford, U.K.: Oxford Univ. Press, 2002.
+
+12
+
+

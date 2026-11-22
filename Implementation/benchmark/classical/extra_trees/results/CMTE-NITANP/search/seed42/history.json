@@ -1,0 +1,30 @@
+[
+  {
+    "params": {
+      "max_depth": null,
+      "min_samples_leaf": 1
+    },
+    "val_macro_f1": 0.7999
+  },
+  {
+    "params": {
+      "max_depth": null,
+      "min_samples_leaf": 3
+    },
+    "val_macro_f1": 0.7871
+  },
+  {
+    "params": {
+      "max_depth": 64,
+      "min_samples_leaf": 1
+    },
+    "val_macro_f1": 0.767
+  },
+  {
+    "params": {
+      "max_depth": 64,
+      "min_samples_leaf": 3
+    },
+    "val_macro_f1": 0.756
+  }
+]

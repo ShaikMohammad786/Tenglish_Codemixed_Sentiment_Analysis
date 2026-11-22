@@ -1,0 +1,112 @@
+{
+  "config": {
+    "splits_dir": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/datasets/splits/CMTE-NITANP",
+    "text_field": "text_clean",
+    "tokenizer": "wordpiece",
+    "tokenizer_name": "google/muril-base-cased",
+    "epochs": 5,
+    "batch_size": 128,
+    "max_len": 40,
+    "emb_dim": 100,
+    "filters": 100,
+    "hidden": 64,
+    "dropout": 0.3,
+    "lr": 0.001,
+    "seed": 42,
+    "out_dir": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/Implementation/baseline/cnn-bilstm/results/CMTE-NITANP"
+  },
+  "results": {
+    "A": {
+      "split": "A",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 197258,
+      "pad_id": 0,
+      "tokens_per_item_mean": 17.42,
+      "truncation_pct": 8.5,
+      "device": "cpu",
+      "best_val_macro_f1": 0.7812,
+      "test_accuracy": 0.7785,
+      "test_macro_f1": 0.7779,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.7560    0.8251    0.7891      1258\n     Neutral     0.7634    0.7543    0.7588      1095\n    Positive     0.8257    0.7495    0.7858      1106\n\n    accuracy                         0.7785      3459\n   macro avg     0.7817    0.7763    0.7779      3459\nweighted avg     0.7806    0.7785    0.7784      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7789,
+          "val_macro_f1": 0.7367
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.5791,
+          "val_macro_f1": 0.7689
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.4837,
+          "val_macro_f1": 0.7795
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.4128,
+          "val_macro_f1": 0.7812
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.3481,
+          "val_macro_f1": 0.7759
+        }
+      ]
+    },
+    "B": {
+      "split": "B",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 197258,
+      "pad_id": 0,
+      "tokens_per_item_mean": 17.86,
+      "truncation_pct": 9.71,
+      "device": "cpu",
+      "best_val_macro_f1": 0.788,
+      "test_accuracy": 0.7942,
+      "test_macro_f1": 0.7945,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.7627    0.8251    0.7927      1258\n     Neutral     0.7752    0.7653    0.7702      1095\n    Positive     0.8564    0.7875    0.8205      1106\n\n    accuracy                         0.7942      3459\n   macro avg     0.7981    0.7926    0.7945      3459\nweighted avg     0.7966    0.7942    0.7945      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.7826,
+          "val_macro_f1": 0.7401
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.5749,
+          "val_macro_f1": 0.771
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.4851,
+          "val_macro_f1": 0.7722
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.4113,
+          "val_macro_f1": 0.7785
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.3526,
+          "val_macro_f1": 0.788
+        }
+      ]
+    }
+  },
+  "gap": {
+    "macro_f1": -0.0166,
+    "accuracy": -0.0157
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "run_id": "classical/xgboost/CMTE-NITANP/ablation_word12/seed42",
+  "family": "classical",
+  "model": "xgboost",
+  "phase": "ablation",
+  "config": "ablation_word12",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word12",
+  "n_features": 40604,
+  "params": {
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "n_estimators": 300
+  },
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_val_macro_f1": 0.7733,
+  "test": {
+    "accuracy": 0.7739230991616074,
+    "macro_f1": 0.7741636378292821,
+    "weighted_f1": 0.7740822891545193,
+    "mcc": 0.6604916199285765,
+    "per_class": {
+      "Negative": {
+        "precision": 0.7314285714285714,
+        "recall": 0.8139904610492846,
+        "f1": 0.7705041384499624
+      },
+      "Neutral": {
+        "precision": 0.7728155339805826,
+        "recall": 0.7269406392694064,
+        "f1": 0.7491764705882353
+      },
+      "Positive": {
+        "precision": 0.8328474246841594,
+        "recall": 0.7748643761301989,
+        "f1": 0.8028103044496487
+      }
+    },
+    "confusion": [
+      [
+        1024,
+        135,
+        99
+      ],
+      [
+        226,
+        796,
+        73
+      ],
+      [
+        150,
+        99,
+        857
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.7314    0.8140    0.7705      1258\n     Neutral     0.7728    0.7269    0.7492      1095\n    Positive     0.8328    0.7749    0.8028      1106\n\n    accuracy                         0.7739      3459\n   macro avg     0.7790    0.7719    0.7742      3459\nweighted avg     0.7770    0.7739    0.7741      3459\n",
+    "ece": 0.06851979104484843,
+    "brier": 0.3246566528640032,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9323699421965318,
+        "macro_f1": 0.9314767477017568
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9093975903614457,
+        "macro_f1": 0.9089408714120296
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.8806278397356464,
+        "macro_f1": 0.8799068881977558
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8496566678713408,
+        "macro_f1": 0.8491539872474995
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.814005782203662,
+        "macro_f1": 0.8135994389455199
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.7739230991616074,
+        "macro_f1": 0.7741636378292821
+      }
+    }
+  },
+  "history": [
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "n_estimators": 300
+      },
+      "val_macro_f1": 0.7733
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "n_estimators": 300
+      },
+      "val_macro_f1": 0.7095
+    }
+  ]
+}

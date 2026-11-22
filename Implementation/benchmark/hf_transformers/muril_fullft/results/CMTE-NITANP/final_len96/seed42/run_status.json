@@ -1,0 +1,8 @@
+{
+  "status": "running",
+  "ts": "2026-10-24T12:21:47+00:00",
+  "model": "muril_fullft",
+  "phase": "final",
+  "seed": 42,
+  "attempts": 1
+}

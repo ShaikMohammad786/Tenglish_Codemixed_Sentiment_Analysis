@@ -1,0 +1,25 @@
+{
+  "model": "logistic_regression",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "C": 1.0
+  },
+  "val_macro_f1": 0.8083,
+  "search_seed": 42,
+  "grid": [
+    {
+      "C": 0.1
+    },
+    {
+      "C": 1.0
+    },
+    {
+      "C": 10.0
+    }
+  ],
+  "frozen_at": "2026-10-19T12:21:26+00:00",
+  "hash": "efa40aaef091839cd118a7ab219c67ba72a5b48eefe2bab9e60363a86262f46c"
+}

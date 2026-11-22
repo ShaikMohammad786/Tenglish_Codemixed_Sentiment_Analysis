@@ -1,0 +1,170 @@
+{
+  "run_id": "transformers/indicbert_lora/CMTE-NITANP/final/seed43",
+  "family": "transformers",
+  "model": "indicbert_lora",
+  "phase": "final",
+  "config": "final",
+  "seed": 43,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "ai4bharat/IndicBERTv2-MLM-only",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0004,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "950ea13b4c2977714077f01143b823e287a2d0335f89d265a76943c7850eab24",
+  "trainable_params": 592131,
+  "total_params": 278635782,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 8,
+  "best_val_macro_f1": 0.8131,
+  "test": {
+    "accuracy": 0.8149754264238219,
+    "macro_f1": 0.8153515107563637,
+    "weighted_f1": 0.8150995355289568,
+    "mcc": 0.7219066721362452,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8072957969865187,
+        "recall": 0.809220985691574,
+        "f1": 0.8082572449384676
+      },
+      "Neutral": {
+        "precision": 0.7904676258992805,
+        "recall": 0.8027397260273973,
+        "f1": 0.7965564114182148
+      },
+      "Positive": {
+        "precision": 0.848987108655617,
+        "recall": 0.833634719710669,
+        "f1": 0.8412408759124088
+      }
+    },
+    "confusion": [
+      [
+        1018,
+        144,
+        96
+      ],
+      [
+        148,
+        879,
+        68
+      ],
+      [
+        95,
+        89,
+        922
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8073    0.8092    0.8083      1258\n     Neutral     0.7905    0.8027    0.7966      1095\n    Positive     0.8490    0.8336    0.8412      1106\n\n    accuracy                         0.8150      3459\n   macro avg     0.8156    0.8152    0.8154      3459\nweighted avg     0.8153    0.8150    0.8151      3459\n",
+    "ece": 0.0761036317570425,
+    "brier": 0.27314233091432916,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9566473988439307,
+        "macro_f1": 0.9534638983274618
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9460240963855422,
+        "macro_f1": 0.9450503492581434
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.9235852953325072,
+        "macro_f1": 0.9232210546584968
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8988073726057102,
+        "macro_f1": 0.8986744085900845
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8612271121105043,
+        "macro_f1": 0.8613279407483264
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8149754264238219,
+        "macro_f1": 0.8153515107563637
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7809,
+      "val_macro_f1": 0.781,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5615,
+      "val_macro_f1": 0.7884,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5093,
+      "val_macro_f1": 0.8043,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4762,
+      "val_macro_f1": 0.8096,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4453,
+      "val_macro_f1": 0.8046,
+      "best": false
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4219,
+      "val_macro_f1": 0.8105,
+      "best": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.4036,
+      "val_macro_f1": 0.8066,
+      "best": false
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.3842,
+      "val_macro_f1": 0.8131,
+      "best": true
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.367,
+      "val_macro_f1": 0.8081,
+      "best": false
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.3523,
+      "val_macro_f1": 0.8101,
+      "best": false
+    }
+  ],
+  "elapsed_s": 2741.2
+}

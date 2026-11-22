@@ -1,0 +1,18 @@
+[
+  {
+    "params": {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "n_estimators": 300
+    },
+    "val_macro_f1": 0.7929
+  },
+  {
+    "params": {
+      "num_leaves": 15,
+      "learning_rate": 0.05,
+      "n_estimators": 300
+    },
+    "val_macro_f1": 0.7812
+  }
+]

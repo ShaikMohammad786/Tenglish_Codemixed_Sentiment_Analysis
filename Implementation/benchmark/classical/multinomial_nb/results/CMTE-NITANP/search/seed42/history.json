@@ -1,0 +1,20 @@
+[
+  {
+    "params": {
+      "alpha": 0.1
+    },
+    "val_macro_f1": 0.7863
+  },
+  {
+    "params": {
+      "alpha": 0.5
+    },
+    "val_macro_f1": 0.7945
+  },
+  {
+    "params": {
+      "alpha": 1.0
+    },
+    "val_macro_f1": 0.7951
+  }
+]

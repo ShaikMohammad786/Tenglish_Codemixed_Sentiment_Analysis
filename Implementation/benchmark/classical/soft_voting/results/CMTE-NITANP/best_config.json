@@ -1,0 +1,15 @@
+{
+  "model": "soft_voting",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {},
+  "val_macro_f1": 0.8115,
+  "search_seed": 42,
+  "grid": [
+    {}
+  ],
+  "frozen_at": "2026-10-19T20:33:23+00:00",
+  "hash": "26e475e4797ddfe5ebfd8d41be14f6768474f922c01bd0dfdf342a163ecd9e43"
+}

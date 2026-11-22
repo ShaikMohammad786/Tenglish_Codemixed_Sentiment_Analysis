@@ -1,0 +1,28 @@
+{
+  "model": "lightgbm",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "num_leaves": 31,
+    "learning_rate": 0.1,
+    "n_estimators": 300
+  },
+  "val_macro_f1": 0.7952,
+  "search_seed": 42,
+  "grid": [
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "n_estimators": 300
+    },
+    {
+      "num_leaves": 15,
+      "learning_rate": 0.05,
+      "n_estimators": 300
+    }
+  ],
+  "frozen_at": "2026-10-19T14:48:48+00:00",
+  "hash": "d9b7bec53b7743e012bea51ee2186bfcb1a2841833819cabdffacbc538c6bd02"
+}

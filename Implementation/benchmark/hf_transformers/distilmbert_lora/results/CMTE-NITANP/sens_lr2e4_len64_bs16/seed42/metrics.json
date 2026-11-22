@@ -1,0 +1,132 @@
+{
+  "run_id": "transformers/distilmbert_lora/CMTE-NITANP/sens_lr2e4_len64_bs16/seed42",
+  "family": "transformers",
+  "model": "distilmbert_lora",
+  "phase": "sensitivity",
+  "config": "sens_lr2e4_len64_bs16",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "distilbert-base-multilingual-cased",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 5,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "best_epoch": 5,
+  "best_val_macro_f1": 0.8008,
+  "val": {
+    "accuracy": 0.8010985834056086,
+    "macro_f1": 0.8007802891240736,
+    "weighted_f1": 0.8009239543699409,
+    "mcc": 0.7012365911107282,
+    "per_class": {
+      "Negative": {
+        "precision": 0.7706355003652301,
+        "recall": 0.8379666401906275,
+        "f1": 0.8028919330289194
+      },
+      "Neutral": {
+        "precision": 0.82025819265144,
+        "recall": 0.7550274223034735,
+        "f1": 0.786292241789624
+      },
+      "Positive": {
+        "precision": 0.8217913204062789,
+        "recall": 0.8047016274864376,
+        "f1": 0.8131566925536775
+      }
+    },
+    "confusion": [
+      [
+        1055,
+        96,
+        108
+      ],
+      [
+        183,
+        826,
+        85
+      ],
+      [
+        131,
+        85,
+        890
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.7706    0.8380    0.8029      1259\n     Neutral     0.8203    0.7550    0.7863      1094\n    Positive     0.8218    0.8047    0.8132      1106\n\n    accuracy                         0.8011      3459\n   macro avg     0.8042    0.7992    0.8008      3459\nweighted avg     0.8027    0.8011    0.8009      3459\n",
+    "ece": 0.037239182775990365,
+    "brier": 0.2888558748430301,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9445086705202312,
+        "macro_f1": 0.9437672126462954
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.927710843373494,
+        "macro_f1": 0.9271976085748316
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.8983890954151177,
+        "macro_f1": 0.8978794618867023
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8717022045536682,
+        "macro_f1": 0.8711746548130646
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8397044651461613,
+        "macro_f1": 0.839446294172407
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8010985834056086,
+        "macro_f1": 0.8007802891240736
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7355,
+      "val_macro_f1": 0.7661,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.569,
+      "val_macro_f1": 0.7806,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5255,
+      "val_macro_f1": 0.7888,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4932,
+      "val_macro_f1": 0.7995,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4697,
+      "val_macro_f1": 0.8008,
+      "best": true
+    }
+  ],
+  "elapsed_s": 408.3
+}

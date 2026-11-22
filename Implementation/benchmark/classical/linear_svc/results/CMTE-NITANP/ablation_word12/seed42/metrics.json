@@ -1,0 +1,117 @@
+{
+  "run_id": "classical/linear_svc/CMTE-NITANP/ablation_word12/seed42",
+  "family": "classical",
+  "model": "linear_svc",
+  "phase": "ablation",
+  "config": "ablation_word12",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word12",
+  "n_features": 40604,
+  "params": {
+    "C": 1.0
+  },
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_val_macro_f1": 0.8135,
+  "test": {
+    "accuracy": 0.8222029488291414,
+    "macro_f1": 0.8222772854697243,
+    "weighted_f1": 0.8220839628276154,
+    "mcc": 0.7327280571381012,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8121069182389937,
+        "recall": 0.8211446740858506,
+        "f1": 0.8166007905138339
+      },
+      "Neutral": {
+        "precision": 0.815962441314554,
+        "recall": 0.7936073059360731,
+        "f1": 0.8046296296296296
+      },
+      "Positive": {
+        "precision": 0.839572192513369,
+        "recall": 0.8517179023508138,
+        "f1": 0.8456014362657092
+      }
+    },
+    "confusion": [
+      [
+        1033,
+        126,
+        99
+      ],
+      [
+        145,
+        869,
+        81
+      ],
+      [
+        94,
+        70,
+        942
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8121    0.8211    0.8166      1258\n     Neutral     0.8160    0.7936    0.8046      1095\n    Positive     0.8396    0.8517    0.8456      1106\n\n    accuracy                         0.8222      3459\n   macro avg     0.8225    0.8222    0.8223      3459\nweighted avg     0.8221    0.8222    0.8221      3459\n",
+    "ece": 0.04006108438994145,
+    "brier": 0.26568907300282446,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9601156069364162,
+        "macro_f1": 0.9592984185056813
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9431325301204819,
+        "macro_f1": 0.9425671332750047
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.9231722428748451,
+        "macro_f1": 0.9225471479556712
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8919407300325262,
+        "macro_f1": 0.8916015939726804
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8615483456472856,
+        "macro_f1": 0.8614641791202727
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8222029488291414,
+        "macro_f1": 0.8222772854697243
+      }
+    }
+  },
+  "history": [
+    {
+      "params": {
+        "C": 0.01
+      },
+      "val_macro_f1": 0.7688
+    },
+    {
+      "params": {
+        "C": 0.1
+      },
+      "val_macro_f1": 0.8053
+    },
+    {
+      "params": {
+        "C": 1.0
+      },
+      "val_macro_f1": 0.8135
+    }
+  ]
+}

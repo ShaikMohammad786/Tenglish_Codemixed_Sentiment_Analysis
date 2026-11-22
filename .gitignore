@@ -1,0 +1,46 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Model checkpoints and weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.h5
+*.hdf5
+*.bin
+*.onnx
+
+# Cache & temporary files
+.cache/
+Implementation/benchmark/cache/
+*.tmp*
+.tmp*
+
+# Training artifacts & runs
+wandb/
+runs/
+checkpoints/
+
+# IDE & Editor configs
+.vscode/
+.idea/
+.claude/
+.commandcode/
+
+# TeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz

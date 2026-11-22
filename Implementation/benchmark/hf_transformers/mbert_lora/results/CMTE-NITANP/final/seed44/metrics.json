@@ -1,0 +1,170 @@
+{
+  "run_id": "transformers/mbert_lora/CMTE-NITANP/final/seed44",
+  "family": "transformers",
+  "model": "mbert_lora",
+  "phase": "final",
+  "config": "final",
+  "seed": 44,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "bert-base-multilingual-cased",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0004,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "950ea13b4c2977714077f01143b823e287a2d0335f89d265a76943c7850eab24",
+  "trainable_params": 592131,
+  "total_params": 178447878,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 9,
+  "best_val_macro_f1": 0.8108,
+  "test": {
+    "accuracy": 0.8143972246313964,
+    "macro_f1": 0.814729922149556,
+    "weighted_f1": 0.8145010856250129,
+    "mcc": 0.7209328145132622,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8003120124804992,
+        "recall": 0.8155802861685215,
+        "f1": 0.8078740157480315
+      },
+      "Neutral": {
+        "precision": 0.793040293040293,
+        "recall": 0.7908675799086758,
+        "f1": 0.791952446273434
+      },
+      "Positive": {
+        "precision": 0.8525345622119815,
+        "recall": 0.8363471971066908,
+        "f1": 0.8443633044272022
+      }
+    },
+    "confusion": [
+      [
+        1026,
+        148,
+        84
+      ],
+      [
+        153,
+        866,
+        76
+      ],
+      [
+        103,
+        78,
+        925
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8003    0.8156    0.8079      1258\n     Neutral     0.7930    0.7909    0.7920      1095\n    Positive     0.8525    0.8363    0.8444      1106\n\n    accuracy                         0.8144      3459\n   macro avg     0.8153    0.8143    0.8147      3459\nweighted avg     0.8147    0.8144    0.8145      3459\n",
+    "ece": 0.08789519393985135,
+    "brier": 0.27779988683513157,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9572254335260115,
+        "macro_f1": 0.955986202013524
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9450602409638554,
+        "macro_f1": 0.9443513211492016
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.9264766625361421,
+        "macro_f1": 0.9258928194655386
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8966389591615468,
+        "macro_f1": 0.8961452212153916
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8573723096691295,
+        "macro_f1": 0.8571972824054468
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8143972246313964,
+        "macro_f1": 0.814729922149556
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7906,
+      "val_macro_f1": 0.7627,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5836,
+      "val_macro_f1": 0.7814,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5269,
+      "val_macro_f1": 0.7933,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4855,
+      "val_macro_f1": 0.7953,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4544,
+      "val_macro_f1": 0.8047,
+      "best": true
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4262,
+      "val_macro_f1": 0.8078,
+      "best": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.4002,
+      "val_macro_f1": 0.8107,
+      "best": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.3838,
+      "val_macro_f1": 0.8066,
+      "best": false
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.3615,
+      "val_macro_f1": 0.8108,
+      "best": true
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.3506,
+      "val_macro_f1": 0.8081,
+      "best": false
+    }
+  ],
+  "elapsed_s": 1652.5
+}

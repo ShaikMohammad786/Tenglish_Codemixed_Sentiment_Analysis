@@ -1,0 +1,25 @@
+{
+  "model": "knn",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "n_neighbors": 15
+  },
+  "val_macro_f1": 0.7663,
+  "search_seed": 42,
+  "grid": [
+    {
+      "n_neighbors": 5
+    },
+    {
+      "n_neighbors": 15
+    },
+    {
+      "n_neighbors": 30
+    }
+  ],
+  "frozen_at": "2026-10-19T13:34:38+00:00",
+  "hash": "33b259222f2989e7b4c25a10a3c31e9b1dea10c6ca7618d597fba369fa3bf1ac"
+}

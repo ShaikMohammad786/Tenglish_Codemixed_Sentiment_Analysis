@@ -1,0 +1,170 @@
+{
+  "run_id": "transformers/telugu_bert_lora/CMTE-NITANP/final/seed42",
+  "family": "transformers",
+  "model": "telugu_bert_lora",
+  "phase": "final",
+  "config": "final",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "l3cube-pune/telugu-bert",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0004,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "frozen_hash": "950ea13b4c2977714077f01143b823e287a2d0335f89d265a76943c7850eab24",
+  "trainable_params": 592131,
+  "total_params": 238150662,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 10,
+  "best_val_macro_f1": 0.8175,
+  "test": {
+    "accuracy": 0.8146863255276091,
+    "macro_f1": 0.8148719219922206,
+    "weighted_f1": 0.8146180265386161,
+    "mcc": 0.7215125291055317,
+    "per_class": {
+      "Negative": {
+        "precision": 0.811048839071257,
+        "recall": 0.8052464228934817,
+        "f1": 0.8081372157957718
+      },
+      "Neutral": {
+        "precision": 0.8042279411764706,
+        "recall": 0.7990867579908676,
+        "f1": 0.8016491067338525
+      },
+      "Positive": {
+        "precision": 0.8288770053475936,
+        "recall": 0.840867992766727,
+        "f1": 0.8348294434470377
+      }
+    },
+    "confusion": [
+      [
+        1013,
+        135,
+        110
+      ],
+      [
+        138,
+        875,
+        82
+      ],
+      [
+        98,
+        78,
+        930
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8110    0.8052    0.8081      1258\n     Neutral     0.8042    0.7991    0.8016      1095\n    Positive     0.8289    0.8409    0.8348      1106\n\n    accuracy                         0.8147      3459\n   macro avg     0.8147    0.8151    0.8149      3459\nweighted avg     0.8146    0.8147    0.8146      3459\n",
+    "ece": 0.07455707882725113,
+    "brier": 0.2711099428453643,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9624277456647399,
+        "macro_f1": 0.9612666658837717
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9489156626506025,
+        "macro_f1": 0.9483058204540572
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.9256505576208178,
+        "macro_f1": 0.9251865961398327
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.9013371882905674,
+        "macro_f1": 0.9010451227885165
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.863475746867973,
+        "macro_f1": 0.8633907456693238
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8146863255276091,
+        "macro_f1": 0.8148719219922206
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.9728,
+      "val_macro_f1": 0.6856,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.6915,
+      "val_macro_f1": 0.773,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.573,
+      "val_macro_f1": 0.798,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.5227,
+      "val_macro_f1": 0.8049,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.4895,
+      "val_macro_f1": 0.8092,
+      "best": true
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4615,
+      "val_macro_f1": 0.8125,
+      "best": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.4416,
+      "val_macro_f1": 0.8162,
+      "best": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.4214,
+      "val_macro_f1": 0.8164,
+      "best": true
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.4073,
+      "val_macro_f1": 0.8174,
+      "best": true
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.3953,
+      "val_macro_f1": 0.8175,
+      "best": true
+    }
+  ],
+  "elapsed_s": 1617.7
+}

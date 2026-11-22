@@ -1,0 +1,146 @@
+{
+  "run_id": "transformers/muril_fullft/CMTE-NITANP/final/seed42",
+  "family": "transformers",
+  "model": "muril_fullft",
+  "phase": "final",
+  "config": "final",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "google/muril-base-cased",
+  "full_ft": true,
+  "hyper": {
+    "lr": 2e-05,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 10,
+    "batch_size": 8,
+    "grad_accum": 4
+  },
+  "frozen_hash": "7a7a41d68eee1650ec376112a0e097374e3ad4350ce324e9c112ba06549a1223",
+  "trainable_params": 237558531,
+  "total_params": 237558531,
+  "rows": {
+    "train": 27670,
+    "val": 3459,
+    "test": 3459
+  },
+  "best_epoch": 4,
+  "best_val_macro_f1": 0.8255,
+  "test": {
+    "accuracy": 0.8337669846776525,
+    "macro_f1": 0.8336029423175151,
+    "weighted_f1": 0.8336225730745374,
+    "mcc": 0.7501155806449429,
+    "per_class": {
+      "Negative": {
+        "precision": 0.8273155416012559,
+        "recall": 0.8378378378378378,
+        "f1": 0.8325434439178515
+      },
+      "Neutral": {
+        "precision": 0.8250235183443085,
+        "recall": 0.8009132420091324,
+        "f1": 0.8127896200185357
+      },
+      "Positive": {
+        "precision": 0.8493761140819964,
+        "recall": 0.8616636528028933,
+        "f1": 0.855475763016158
+      }
+    },
+    "confusion": [
+      [
+        1054,
+        118,
+        86
+      ],
+      [
+        135,
+        877,
+        83
+      ],
+      [
+        85,
+        68,
+        953
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.8273    0.8378    0.8325      1258\n     Neutral     0.8250    0.8009    0.8128      1095\n    Positive     0.8494    0.8617    0.8555      1106\n\n    accuracy                         0.8338      3459\n   macro avg     0.8339    0.8335    0.8336      3459\nweighted avg     0.8336    0.8338    0.8336      3459\n",
+    "ece": 0.0702231367325707,
+    "brier": 0.2575897440194437,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9601156069364162,
+        "macro_f1": 0.9575959071446226
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9498795180722892,
+        "macro_f1": 0.9489194195122965
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.9334985543163982,
+        "macro_f1": 0.9323011564005683
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.9063968196602818,
+        "macro_f1": 0.9053058904863827
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8769675554127851,
+        "macro_f1": 0.8765731242231692
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.8337669846776525,
+        "macro_f1": 0.8336029423175151
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.886,
+      "val_macro_f1": 0.7847,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5187,
+      "val_macro_f1": 0.8108,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.4132,
+      "val_macro_f1": 0.8202,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.3427,
+      "val_macro_f1": 0.8255,
+      "best": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.2897,
+      "val_macro_f1": 0.8227,
+      "best": false
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.2416,
+      "val_macro_f1": 0.8241,
+      "best": false
+    }
+  ],
+  "elapsed_s": 3231.7
+}

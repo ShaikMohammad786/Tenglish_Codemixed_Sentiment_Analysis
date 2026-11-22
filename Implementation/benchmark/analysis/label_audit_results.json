@@ -1,0 +1,54 @@
+{
+  "dataset": "CMTE-NITANP",
+  "split": "B",
+  "train_rows": 27670,
+  "flagged_train_rows": 401,
+  "flagged_fraction": 0.014492229851825082,
+  "oof_wrong_rows": 4760,
+  "C_star_on_clean": 0.3,
+  "test_original_labels": {
+    "baseline": {
+      "accuracy": 0.8363688927435675,
+      "macro_f1": 0.8363265705208051
+    },
+    "remove": {
+      "accuracy": 0.8366579936397803,
+      "macro_f1": 0.8364731424206303
+    },
+    "relabel": {
+      "accuracy": 0.8375252963284187,
+      "macro_f1": 0.8373137618765285
+    },
+    "downweight": {
+      "accuracy": 0.8363688927435675,
+      "macro_f1": 0.8362087619799002
+    },
+    "remove_valC": {
+      "accuracy": 0.8372361954322058,
+      "macro_f1": 0.837219512763399
+    },
+    "multiview": {
+      "accuracy": 0.8392599017056953,
+      "macro_f1": 0.8391787877169561
+    },
+    "multiview_remove": {
+      "accuracy": 0.8375252963284187,
+      "macro_f1": 0.8373895397887333
+    }
+  },
+  "model_consensus_test_audit": {
+    "n_models": 18,
+    "n_consensus_flags": 232,
+    "fraction": 0.06707140792136455,
+    "original_test": {
+      "accuracy": 0.8363688927435675,
+      "macro_f1": 0.8363265705208051
+    },
+    "audited_test": {
+      "accuracy": 0.9343740965596994,
+      "macro_f1": 0.934122259573555
+    },
+    "flag_overlap_with_base_errors": 226,
+    "note": "Audited labels are model-consensus, not human ground truth; never used for model selection."
+  }
+}

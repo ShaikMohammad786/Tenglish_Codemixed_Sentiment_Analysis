@@ -1,0 +1,385 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}</style><style>:root{color-scheme:light dark;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}}:root[data-theme="dark"]{color-scheme:dark;--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}:root[data-theme="light"]{color-scheme:light}@media print{:root,:root[data-theme="dark"]{color-scheme:light;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}}body{background:var(--md-bg);color:var(--md-text);max-width:720px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:10px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro','Segoe UI',sans-serif;overflow-wrap:break-word}body>:first-child{margin-top:0}h1,h2,h3,h4,h5,h6{margin:6px 0 0;line-height:1.25;font-weight:600;text-wrap:balance}h1{font-size:1.35em}h2{font-size:1.15em;color:var(--md-muted)}h3,h4,h5,h6{font-size:1em}p,ul,ol,blockquote,table,pre,hr{margin:0}strong{font-weight:600}a{color:var(--md-link);text-decoration:none}a:hover{text-decoration:underline}ul,ol{display:flex;flex-direction:column;gap:6px;padding-left:22px}ul{list-style:disc}ol{list-style:decimal}:is(li,td,th)>*+:is(p,ul,ol,blockquote){margin-top:6px}blockquote{display:flex;flex-direction:column;gap:10px;border-left:2px solid var(--md-rule);padding-left:10px;color:var(--md-muted)}:not(pre)>code{background:var(--md-fill);padding:1px 3px;border-radius:4px;font:.92em 'SF Mono',ui-monospace,Menlo,Consolas,monospace}a>code{background:none;color:inherit}pre{background:var(--md-fill);padding:10px 12px;border-radius:6px;overflow-x:auto;font:12px/1.5 'SF Mono',ui-monospace,Menlo,Consolas,monospace;margin-block:4px}pre code{background:none;padding:0;font:inherit}table{width:100%;border-collapse:separate;border-spacing:2px;font:inherit}th,td{padding:6px 8px;border-radius:3px;text-align:left;vertical-align:top}th{background:var(--md-fill-strong);font-weight:600}td{background:var(--md-fill)}:is(th,td) :not(pre)>code{background:transparent}hr{border:0;border-top:1px solid var(--md-rule-strong);margin-block:10px}img{max-width:100%;height:auto;border-radius:4px}</style>
+</head><body>
+<h1>Code-Mixed Sentiment Analysis in Dravidian Languages (2020–2026)</h1>
+<h3>A Systematic Literature Review and Research Gap Analysis</h3>
+<hr>
+<h2>Abstract</h2>
+<p>Sentiment analysis (SA) of code-mixed social media text in the Dravidian languages — Tamil, Malayalam, Kannada, Telugu, and, more recently, Tulu — has grown from a niche shared-task exercise in 2020 into a sustained, multi-venue research programme spanning FIRE, DravidianLangTech (co-located successively with EACL, ACL, RANLP and NAACL), and a growing body of independent journal work. This review synthesizes six years of research (2020–2026), tracing the evolution of datasets, benchmark shared tasks, and modelling paradigms — from lexicon and classical machine learning, through recurrent and convolutional deep learning, to transformer-based multilingual encoders and, most recently, large language model (LLM) prompting, fine-tuning and LLM-assisted data augmentation. The review consolidates findings across roughly 60 primary sources (shared-task overview papers, system-description papers, dataset papers, and independent studies) and distills them into a structured set of research gaps: persistent low absolute performance on several language pairs (notably Tulu and Telugu), annotation and label-scheme inconsistency across editions, weak handling of sarcasm/irony and negation, underdeveloped multimodal and aspect-based sentiment analysis, immature exploration of LLMs specifically for Dravidian code-mixing, absent standardized cross-year benchmarking, and limited attention to explainability, dialectal variation, and real-world deployment. The review closes with concrete directions for future research suited to a Dravidian code-mixed setting.</p>
+<hr>
+<h2>1. Introduction</h2>
+<p>India's social media ecosystem is overwhelmingly multilingual, and users routinely blend English with their native language within a single sentence, comment, or post — a phenomenon linguists call <strong>code-mixing</strong>. In the four major Dravidian languages of South India — Tamil, Malayalam, Kannada, and Telugu, spoken collectively by several hundred million people, plus the far less-resourced Tulu — this mixing is compounded by an additional layer of complexity: because typing in native scripts (Tamil, Malayalam, Kannada, Telugu abugidas) is inconvenient on standard keyboards, users frequently <strong>transliterate</strong> their native language into the Roman alphabet, producing text that mixes two languages <em>and</em> two scripts at once. Sentiment analysis — the task of automatically inferring whether a piece of text expresses a positive, negative, neutral, or mixed emotional stance — is one of the most commercially and socially relevant NLP tasks (opinion mining for business, public-policy monitoring, disaster response, content moderation), yet it becomes substantially harder under these conditions of script-mixing, transliteration noise, and morphological richness.</p>
+<p>Before 2020, sentiment analysis for Dravidian languages was almost entirely monolingual and lexicon-driven, and no shared benchmark existed for code-mixed text. The launch of the <strong>Dravidian-CodeMix</strong> track at FIRE 2020 marked a turning point: for the first time, a common annotated dataset and leaderboard allowed different research groups to compare approaches directly on Tamil-English and Malayalam-English (later Kannada-English) code-mixed comments. This catalyzed a research programme that has run continuously since, producing a new task edition almost every year through the <strong>DravidianLangTech</strong> workshop series (2021–2026) and an increasing volume of independent journal and conference publications. This review covers that entire arc, January 2020 through mid-2026.</p>
+<h3>1.1 Objectives of this review</h3>
+<p>This review addresses four guiding research questions:</p>
+<ul>
+<li><strong>RQ1 — Scope and evolution:</strong> How has the sentiment analysis task for Dravidian code-mixed text been defined, scaled, and extended (new languages, new modalities, new label schemes) between 2020 and 2026?</li>
+<li><strong>RQ2 — Methodological evolution:</strong> What modelling paradigms (lexicon/rule-based, classical ML, deep learning, transformer-based, LLM-based) have been applied, and how has performance evolved?</li>
+<li><strong>RQ3 — Data landscape:</strong> What datasets exist for each Dravidian language pair, how large and how are they annotated, and where are the gaps?</li>
+<li><strong>RQ4 — Open problems:</strong> What limitations recur across studies, and what does this imply for future research (including a project or thesis aiming to make a novel contribution in this space)?</li>
+</ul>
+<h3>1.2 Review methodology</h3>
+<p>Sources were identified through a structured search of the ACL Anthology (all DravidianLangTech workshop proceedings, 2021–2026), the FIRE working-notes archive (Dravidian-CodeMix 2020 and 2021), arXiv, and journal databases (Springer, IEEE Xplore, ScienceDirect, Nature <em>Scientific Reports</em>), using combinations of the terms &quot;code-mixed sentiment analysis,&quot; &quot;Dravidian,&quot; &quot;Tamil-English,&quot; &quot;Malayalam-English,&quot; &quot;Kannada-English,&quot; &quot;Telugu-English,&quot; &quot;Tulu,&quot; &quot;DravidianLangTech,&quot; and &quot;Dravidian-CodeMix.&quot; Priority was given to (a) shared-task overview/findings papers, which summarize a whole cohort of systems and report comparative leaderboard results; (b) dataset-introduction papers; (c) independent (non-shared-task) peer-reviewed studies; and (d) recent survey articles that themselves performed systematic reviews of adjacent scope, which were used to cross-validate coverage and identify papers this review might otherwise have missed. Approximately 60 primary sources published between 2020 and 2026 are synthesized below.</p>
+<hr>
+<h2>2. Background: Dravidian Languages and Code-Mixing</h2>
+<h3>2.1 The Dravidian language family</h3>
+<p>Tamil, Telugu, Kannada, and Malayalam are the four major literary Dravidian languages, all recognized as scheduled/official languages in India (Tamil also has official status in Sri Lanka and Singapore). All four are <strong>agglutinative</strong>, building long inflected words through chains of suffixes, and all four use their own <strong>abugida scripts</strong>, distinct from the Devanagari or Latin scripts most NLP tooling was originally built around. Tulu, spoken mainly in coastal Karnataka, is a fifth Dravidian language that has only recently begun to receive dedicated computational attention (from 2023 onward), and it remains markedly more resource-poor than the other four.</p>
+<h3>2.2 What &quot;code-mixing&quot; means in this literature</h3>
+<p>Three linguistic patterns recur across the reviewed datasets:</p>
+<ul>
+<li><strong>Inter-sentential switching</strong> — alternating whole sentences between languages.</li>
+<li><strong>Intra-sentential switching</strong> — mixing languages within a single sentence or clause (the most common and hardest-to-model pattern in the reviewed corpora).</li>
+<li><strong>Tag-switching / script-mixing</strong> — inserting discourse markers, exclamations, or entire words from one language into an utterance otherwise in the other language, frequently compounded by writing the native language in Roman transliteration rather than its native script.</li>
+</ul>
+<p>Typical shared-task label schemes (following the Dravidian-CodeMix convention introduced at FIRE 2020–2021) classify each comment into five categories: <em>Positive</em>, <em>Negative</em>, <em>Mixed_feelings</em>, <em>unknown_state</em>, and a <em>not-in-language</em> category for text that turns out not to be in the target code-mixed pair at all — a scheme that itself has been a recurring source of annotation difficulty (see Section 9).</p>
+<h3>2.3 Levels and purposes of sentiment analysis</h3>
+<p>Sentiment analysis is generally studied at three levels of granularity — document level, sentence level, and aspect level (fine-grained analysis of sentiment toward specific entities or features within a text) — and serves applications spanning e-commerce feedback analysis, political and social monitoring, disaster response, finance, and healthcare-adjacent public-health sentiment tracking. Almost all of the Dravidian code-mixed literature reviewed here operates at the sentence/comment level; aspect-level and document-level treatments remain comparatively rare (Section 8.6).</p>
+<hr>
+<h2>3. Timeline of Shared Tasks and Benchmark Evolution (2020–2026)</h2>
+<p>The single most important structural feature of this literature is that most of it is organized around a recurring, evolving shared-task series, run by an overlapping group of organizers (most consistently Bharathi Raja Chakravarthi and collaborators). The table below summarizes the sentiment-analysis-relevant editions.</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Venue / Track</th>
+<th>Languages covered</th>
+<th>Notable features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020</td>
+<td>FIRE — Dravidian-CodeMix</td>
+<td>Tamil-English, Malayalam-English</td>
+<td>First shared benchmark for Dravidian code-mixed SA; ~15,000 Tamil and ~6,000 Malayalam YouTube-comment instances; top systems used meta-embeddings + transformer/GRU hybrids</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>FIRE — Dravidian-CodeMix</td>
+<td>+ Kannada-English added</td>
+<td>Full DravidianCodeMix dataset released (≈44k Tamil, ≈20k Malayalam, ≈7k Kannada comments); pretrained multilingual transformers (mBERT, XLM-R) became dominant</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>First Workshop on Speech and Language Technologies for Dravidian Languages</td>
+<td>Tamil, Malayalam, Kannada</td>
+<td>Companion academic workshop launched alongside the shared tasks</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>DravidianLangTech@ACL 2022 (2nd workshop)</td>
+<td>Tamil, Malayalam</td>
+<td>Multimodal sentiment analysis and troll-meme classification introduced; separate Emotion Analysis in Tamil task (11–31 fine-grained emotion classes)</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>DravidianLangTech@RANLP 2023 (3rd workshop)</td>
+<td>Tamil, Malayalam, <strong>Tulu</strong> (new)</td>
+<td>Multimodal abusive-language-detection-and-sentiment task (movie reviews, 5-class); first dedicated Tamil–Tulu code-mixed sentiment shared task</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>DravidianLangTech@EACL 2024 (4th workshop)</td>
+<td>Tamil, Tulu</td>
+<td>Second Tamil–Tulu sentiment shared task (64 teams registered); separate HOLD-Telugu hate/offensive-language shared task run in parallel</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>DravidianLangTech@NAACL 2025 (5th workshop)</td>
+<td>Tamil, Tulu, Malayalam, Telugu</td>
+<td>Sentiment Analysis in Tamil and Tulu (3rd edition); new task on detecting AI/LLM-generated product reviews (Malayalam, Tamil); multimodal hate-speech detection extended to Telugu</td>
+</tr>
+<tr>
+<td>2026</td>
+<td>DravidianLangTech@ACL 2026 (6th workshop)</td>
+<td>Tamil, Tulu</td>
+<td>TamilPoliSent 2026 — 7-class political sentiment analysis of Tamil tweets, explicitly modelling sarcasm as a class; Tulu Hope-Speech-Detection task; heavy use of LoRA-tuned XLM-R and LLM (Gemini)-based data augmentation among participating systems</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Observations from the timeline.</strong> Three structural trends stand out. First, the <em>core</em> recurring &quot;Sentiment Analysis&quot; shared task narrowed after 2021 to a Tamil-Tulu pairing, while Malayalam and Kannada sentiment work moved into occasional multimodal tasks or independent (non-shared-task) publications rather than a yearly benchmark. Second, Telugu was largely absent from the <em>sentiment</em>-specific shared-task line, appearing instead in adjacent tasks (hate/offensive-language detection, multimodal hate speech) — meaning most Telugu-English sentiment research in this period comes from independent papers rather than from a shared, comparable leaderboard. Third, the modelling stack used by participating systems has shifted markedly: 2020–2021 systems were dominated by classical ML and early transformer fine-tuning; 2024–2026 systems increasingly use parameter-efficient fine-tuning (LoRA) of multilingual transformers and LLM-based synthetic data augmentation (e.g., Gemini 2.5 Flash-generated training examples) to counter class imbalance.</p>
+<hr>
+<h2>4. Datasets</h2>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Language pair(s)</th>
+<th>Approx. size</th>
+<th>Source</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dravidian-CodeMix / DravidianCodeMix</td>
+<td>Tamil-En, Malayalam-En, Kannada-En</td>
+<td>~44k / ~20k / ~7k comments</td>
+<td>YouTube comments</td>
+<td>The most widely reused benchmark in this literature; five-way label scheme (Positive/Negative/Mixed_feelings/unknown_state/not-language)</td>
+</tr>
+<tr>
+<td>KanCMD</td>
+<td>Kannada-En</td>
+<td>7,671 comments</td>
+<td>YouTube</td>
+<td>Multi-task (sentiment + offensive language); Krippendorff's alpha ≈0.73 (sentiment)</td>
+</tr>
+<tr>
+<td>Malayalam-English 2020 dataset</td>
+<td>Malayalam-En</td>
+<td>~6,000–7,000 comments</td>
+<td>YouTube</td>
+<td>Introduced alongside the FIRE 2020 track; later expanded (EACL 2021 edition: 4,851 train / 540 dev / 1,348 test)</td>
+</tr>
+<tr>
+<td>CMTET (Code-Mixed Telugu-English Text)</td>
+<td>Telugu-En</td>
+<td>Varies by study (several thousand to ~20k)</td>
+<td>Twitter/YouTube</td>
+<td>Multiple independent corpora exist under similar names; not consolidated into one shared benchmark</td>
+</tr>
+<tr>
+<td>TamilEmo</td>
+<td>Tamil (monolingual + code-mixed)</td>
+<td>~42,000 comments, 31 emotion classes</td>
+<td>YouTube</td>
+<td>Largest fine-grained emotion-labelled Tamil resource</td>
+</tr>
+<tr>
+<td>MABSA / MADTRAS</td>
+<td>Tamil, Malayalam</td>
+<td>Small (hundreds–low thousands)</td>
+<td>Movie reviews</td>
+<td>Aspect-based sentiment resources; comparatively small and domain-restricted</td>
+</tr>
+<tr>
+<td>Tulu sentiment corpora (2023–2026 editions)</td>
+<td>Tulu-En</td>
+<td>Small, growing yearly</td>
+<td>YouTube</td>
+<td>Newest addition to the ecosystem; still the smallest and least standardized</td>
+</tr>
+<tr>
+<td>HOLD-Telugu</td>
+<td>Telugu-En</td>
+<td>Not sentiment-labelled (hate/offensive)</td>
+<td>YouTube</td>
+<td>Relevant as the main Telugu-specific DravidianLangTech resource, though not a sentiment corpus</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Observation.</strong> The DravidianCodeMix corpus remains, by a wide margin, the most reused dataset in this literature, largely because it is the only one offering three languages with a consistent label scheme and non-trivial scale. Every other resource is comparatively small, single-language, or inconsistently labelled across editions — a point that recurs directly in the research-gap analysis (Section 9).</p>
+<hr>
+<h2>5. Methodological Evolution</h2>
+<h3>5.1 Lexicon-based and classical machine learning (predominant 2020–2022, still used as baselines)</h3>
+<p>Early and continuing work relies on TF-IDF and n-gram (word- and character-level) features feeding classical classifiers — Support Vector Machines, Naive Bayes, Logistic Regression, k-Nearest Neighbours, Random Forest, and Decision Trees — sometimes combined into hard- or soft-voting ensembles. Lexicon-based approaches (e.g., transliterating Roman-script tokens back to native script and consulting SentiWordNet-style sentiment lexicons for each language) were common in the earliest Telugu-English and Malayalam-English work, but have progressively been supplanted by learned representations, since lexicon coverage degrades badly on informal, misspelled, and code-switched tokens. Classical ML remains competitive as a fast baseline, particularly for the smallest/newest datasets (Tulu, Telugu) where transformer fine-tuning is data-hungrier and more prone to overfitting.</p>
+<h3>5.2 Deep learning (recurrent and convolutional architectures)</h3>
+<p>From roughly 2021 onward, LSTM, Bi-LSTM, GRU, Bi-GRU, and CNN architectures — often combined into hybrids such as CNN+Bi-LSTM — became the dominant non-transformer approach. Notable refinements include syllable-aware word embeddings (combining morpheme-level and word-level representations, particularly effective for the agglutinative morphology of Telugu), hierarchical attention networks for capturing longer comment structure, and phrase-vector embeddings for improving interpretability of hate/sentiment overlap tasks in Tamil. Across the literature synthesized here, CNN–Bi-LSTM hybrid architectures are repeatedly reported among the stronger non-transformer configurations, attributed to their combination of local n-gram-like feature extraction (CNN) with sequential context modelling (Bi-LSTM).</p>
+<h3>5.3 Transformer-based and multilingual pretrained models (dominant from 2022 onward)</h3>
+<p>Multilingual BERT (mBERT), XLM-RoBERTa (XLM-R), IndicBERT, and Google's MuRIL (Multilingual Representations for Indian Languages, pretrained with explicit transliteration augmentation) form the backbone of the majority of top-ranking shared-task systems from 2022 onward. Fine-tuning strategies vary from straightforward single-model fine-tuning to ensembles of multiple transformer checkpoints combined via majority voting (one such ensemble reported a best macro-F1 of 0.82 on a Tamil caste/migration hate-speech-adjacent task at DravidianLangTech-EACL 2024), adapter-based fine-tuning (adapter-BERT) to reduce compute cost, and distillation-based compact models (DistilBERT) for efficiency. Later work has combined transformer embeddings with lexical/TF-IDF features (hybrid architectures) and, by 2025–2026, with parameter-efficient fine-tuning methods such as LoRA to adapt large multilingual encoders cheaply to small, highly imbalanced Dravidian datasets.</p>
+<h3>5.4 The large-language-model era (2023 onward)</h3>
+<p>Two distinct LLM-related threads emerge in the 2023–2026 literature:</p>
+<ol>
+<li><strong>LLMs as zero-/few-shot classifiers.</strong> Several studies have prompted GPT-3.5/GPT-4-class models directly on Dravidian and other code-mixed sentiment tasks. The consistent finding across this thread is that general-purpose LLMs underperform fine-tuned, task-specific multilingual transformer models on code-mixed sentiment classification in a zero-shot setting, particularly for the harder minority classes (mixed feelings, sarcasm-inflected negativity).</li>
+<li><strong>LLMs as data-augmentation engines.</strong> Rather than using an LLM as the classifier itself, several 2024–2026 systems instead use an LLM (GPT-4, or, in the most recent 2026 DravidianLangTech submissions, Gemini 2.5 Flash) to <em>generate synthetic training examples</em> for underrepresented sentiment classes, then fine-tune a smaller multilingual transformer (e.g., MuRIL) on the augmented set. One 2026 Tamil political-sentiment system reported expanding its training set roughly 3.5-fold this way and observed a substantial relative improvement in macro-F1 over the non-augmented baseline, illustrating that LLM-assisted augmentation — rather than LLM-as-classifier — is emerging as the more promising near-term use of LLMs in this space.</li>
+</ol>
+<h3>5.5 Summary of the methodological arc</h3>
+<table>
+<thead>
+<tr>
+<th>Period</th>
+<th>Dominant paradigm</th>
+<th>Representative techniques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020–2021</td>
+<td>Lexicon + classical ML</td>
+<td>TF-IDF/n-gram + SVM/NB/LR/RF; meta-embeddings + GRU</td>
+</tr>
+<tr>
+<td>2021–2023</td>
+<td>Deep learning</td>
+<td>Bi-LSTM, Bi-GRU, CNN+Bi-LSTM, hierarchical attention, syllable-aware embeddings</td>
+</tr>
+<tr>
+<td>2022–2025</td>
+<td>Transformer fine-tuning</td>
+<td>mBERT, XLM-R, IndicBERT, MuRIL, adapter-BERT, transformer ensembles</td>
+</tr>
+<tr>
+<td>2023–2026</td>
+<td>LLM-assisted</td>
+<td>Zero-/few-shot GPT prompting (mostly underperforming); LLM-based synthetic data augmentation + PEFT/LoRA fine-tuning of transformers (increasingly effective)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Language-Wise Deep Dive</h2>
+<h3>6.1 Tamil-English</h3>
+<p>Tamil is the most extensively studied Dravidian code-mixed language pair by a clear margin, benefiting from the largest DravidianCodeMix subset (~44,000 comments) and continuous shared-task attention every year from 2020 through 2026. Beyond core sentiment classification, Tamil-English work extends into closely related tasks that regularly intersect with sentiment: hate/offensive-language and caste/migration hate-speech detection, cyberbullying detection, emotion analysis (up to 31 fine-grained classes), sarcasm detection (including a 2025 SHAP-based interpretability study), hope-speech detection, and — as of 2026 — explicit multiclass <em>political</em> sentiment analysis of Tamil X/Twitter data with sarcasm modelled as its own class. This breadth reflects both Tamil's comparatively larger online footprint and the concentration of the organizing research community around Tamil-language resources.</p>
+<h3>6.2 Malayalam-English</h3>
+<p>Malayalam is the second most-studied pair. Beyond the core DravidianCodeMix sentiment task, Malayalam-specific work includes feature-fusion deep-learning approaches for combined sentiment/offensive-text detection, aspect-based sentiment resources (MABSA), multimodal sentiment/troll-meme classification, and a 2025 AI-generated-review-detection task motivated directly by growing LLM-generated content on Malayalam product-review platforms. Malayalam's rich morphology and its Vatteluttu/Malayalam-script heritage introduce distinct transliteration-normalization challenges relative to Tamil.</p>
+<h3>6.3 Kannada-English</h3>
+<p>Kannada is comparatively under-resourced relative to Tamil and Malayalam: KanCMD (7,671 comments) and the Kannada subset of DravidianCodeMix (~7,000–7,300 comments) remain, essentially, the only substantial resources, and Kannada dropped out of the core annual sentiment shared task after the 2021 FIRE edition (persisting mainly through the original DravidianCodeMix benchmark and occasional independent studies). Reported performance on Kannada-English sentiment classification (e.g., a BERT-based system reporting weighted F1 around 0.62–0.66) sits broadly in line with Tamil and Malayalam under comparable transformer setups, but the far smaller and non-renewed dataset limits how much further progress can be benchmarked over time.</p>
+<h3>6.4 Telugu-English</h3>
+<p>Telugu presents an unusual pattern: despite having a large speaker population, it has been <strong>structurally excluded from the core annual Dravidian sentiment shared task</strong> for most of 2020–2026, appearing instead in adjacent shared tasks (HOLD-Telugu hate/offensive detection at DravidianLangTech 2024; multimodal hate-speech detection extended to Telugu at DravidianLangTech 2025). As a result, most Telugu-English <em>sentiment</em> research in this period comes from independent, non-shared-task publications — syllable/word-embedding Bi-LSTM/Bi-GRU models, unsupervised normalization plus MLP classifiers (reporting accuracy around 80%), hybrid deep-learning models evaluated on YouTube/Twitter corpora of roughly 19,000–20,000 comments, and transformer-based multi-domain Telugu sentiment classifiers. Because these studies use different, non-overlapping datasets and evaluation protocols, Telugu-English sentiment results are far harder to compare across papers than Tamil or Malayalam results are.</p>
+<h3>6.5 Tulu-English</h3>
+<p>Tulu is the newest addition to this research programme, entering the shared-task ecosystem only in 2023 (RANLP) and receiving successive editions in 2024, 2025, and 2026. It is consistently the lowest-resource and lowest-performing pair in the benchmark: reported macro-F1 scores for Tamil-Tulu shared tasks have frequently sat in the 0.12–0.6 range depending on year and team, with Tulu often (though not always) outperforming Tamil in absolute macro-F1 in a given edition, largely because the Tulu class distribution has sometimes been less skewed than Tamil's in a particular release. Tulu's move, in the 2026 edition, into an additional hope-speech-detection task signals a broadening of the research agenda beyond sentiment alone, but overall Tulu resources remain an order of magnitude smaller than Tamil's.</p>
+<h3>6.6 Cross-language comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Language pair</th>
+<th>Approx. dataset scale</th>
+<th>Shared-task continuity (2020–2026)</th>
+<th>Typical macro-F1 range reported</th>
+<th>Comparative research maturity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tamil-English</td>
+<td>Largest (tens of thousands)</td>
+<td>Continuous, every year</td>
+<td>Highly variable by task/year (≈0.2–0.8+)</td>
+<td>Most mature; broadest task coverage</td>
+</tr>
+<tr>
+<td>Malayalam-English</td>
+<td>Large (tens of thousands)</td>
+<td>Recurs via multimodal/adjacent tasks</td>
+<td>Comparable to Tamil under similar setups</td>
+<td>Mature; strong aspect-based/multimodal extensions</td>
+</tr>
+<tr>
+<td>Kannada-English</td>
+<td>Small (~7k)</td>
+<td>Discontinued after 2021 as core task</td>
+<td>Comparable to Tamil/Malayalam per available studies</td>
+<td>Stalled; dataset not renewed</td>
+</tr>
+<tr>
+<td>Telugu-English</td>
+<td>Fragmented across independent corpora</td>
+<td>Absent from core sentiment task; present in adjacent hate-speech tasks</td>
+<td>Not directly comparable across studies</td>
+<td>Least standardized despite substantial independent output</td>
+</tr>
+<tr>
+<td>Tulu-English</td>
+<td>Smallest, newly growing</td>
+<td>Continuous since 2023</td>
+<td>Lowest and most volatile (often &lt;0.3)</td>
+<td>Least mature; earliest stage of the research curve</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Cross-Cutting Themes</h2>
+<ul>
+<li><strong>Sentiment/offensive-language overlap.</strong> A large share of &quot;sentiment&quot; papers in this space are really joint sentiment + hate-speech/offensive-language studies, reflecting how the underlying datasets (DravidianCodeMix, KanCMD, HOLD-Telugu) were built as multi-task resources from the outset.</li>
+<li><strong>Sarcasm and irony.</strong> Repeatedly flagged as a major source of misclassification: code-mixed comments that contain strongly positive English lexical items (&quot;super,&quot; &quot;mass,&quot; &quot;thala&quot;) in an otherwise sarcastic or negative Tamil/Malayalam context are a recurring failure mode even for transformer-based systems, and dedicated sarcasm-detection studies remain few relative to the scale of the problem.</li>
+<li><strong>Multimodality.</strong> Multimodal tasks (movie-review sentiment with audio; hate-speech detection combining speech and text) have been introduced periodically since 2022 but remain a minority strand, and, as of the most recent editions, still lag text-only performance and cover fewer languages (Tamil, Malayalam, and — from 2025 — Telugu) than the text-only line.</li>
+<li><strong>Hope speech and prosocial framing.</strong> A parallel line of work (multilingual hope-speech detection since 2022, extended to a dedicated Tulu hope-speech task in 2026) treats positive/encouraging sentiment as a distinct, socially motivated category rather than folding it into standard positive-sentiment labels.</li>
+<li><strong>Political and domain-specific sentiment.</strong> The 2026 TamilPoliSent task signals a shift toward domain-specific sentiment schemes (adding classes like &quot;Substantiated&quot; and &quot;Sarcastic&quot; tailored to political discourse) rather than the generic five-way scheme used since 2020.</li>
+<li><strong>AI-generated content detection.</strong> The 2025 shared task on detecting LLM-generated product reviews in Malayalam and Tamil reflects a new, sentiment-adjacent concern: as LLMs become capable of generating fluent code-mixed text, distinguishing authentic from synthetic sentiment expression is emerging as its own research problem.</li>
+</ul>
+<hr>
+<h2>8. Research Gaps</h2>
+<p>Synthesizing across the roughly 60 sources reviewed, the following gaps recur most consistently and are the most actionable for new research (including thesis or publication-oriented work):</p>
+<ol>
+<li>
+<p><strong>Persistently low and volatile absolute performance, especially for Tulu and low-resource classes.</strong> Even the best systems in recent Tamil-Tulu shared-task editions report macro-F1 scores well below what is considered production-ready for a five-or-more-class sentiment task (frequently in the 0.2–0.6 range), and results swing considerably year to year as class balance shifts — indicating that current architectures are not yet robustly solving the underlying problem rather than simply needing more parameters.</p>
+</li>
+<li>
+<p><strong>Annotation-scheme and benchmark inconsistency across years and languages.</strong> The five-way label scheme (Positive/Negative/Mixed_feelings/unknown_state/not-language) introduced in 2020–2021 has not been applied uniformly in every subsequent edition; some tasks use four classes, others add neutral or domain-specific classes (e.g., &quot;Substantiated,&quot; &quot;Sarcastic&quot; in the 2026 political task). This makes true cross-year, cross-paper performance comparison difficult and undermines the field's ability to demonstrate cumulative progress.</p>
+</li>
+<li>
+<p><strong>Telugu remains structurally under-integrated into the core shared-task ecosystem.</strong> Despite a large speaker base and substantial independent research output, Telugu-English sentiment analysis lacks a continuous, comparable shared benchmark analogous to the Tamil-Tulu track; existing Telugu corpora are fragmented across non-overlapping studies with different scales, domains, and evaluation protocols.</p>
+</li>
+<li>
+<p><strong>Kannada research has stalled at 2021-era resources.</strong> No major new Kannada-English code-mixed sentiment dataset or shared task has emerged since 2021, even as Tamil, Malayalam, and Tulu resources have continued to grow — leaving Kannada comparatively frozen relative to sibling languages.</p>
+</li>
+<li>
+<p><strong>Sarcasm, irony, and negation handling remain weak.</strong> Multiple independent studies and shared-task retrospectives flag sarcastic or ironic code-mixed comments (especially those using positive-sounding English slang in a negative context) as a dominant error source, yet dedicated sarcasm/irony/negation-aware architectures for Dravidian code-mixed text are still a small minority of the literature relative to generic sentiment classifiers.</p>
+</li>
+<li>
+<p><strong>Aspect-based sentiment analysis (ABSA) for code-mixed Dravidian text is nascent.</strong> Existing ABSA resources (e.g., Tamil and Malayalam movie-review datasets) are small, domain-restricted (largely movie reviews), and often monolingual rather than genuinely code-mixed, leaving fine-grained, entity/feature-level sentiment analysis for code-mixed Dravidian social media largely unexplored.</p>
+</li>
+<li>
+<p><strong>Multimodal sentiment analysis is underdeveloped relative to text-only work.</strong> Audio-visual-text sentiment tasks have been introduced only intermittently since 2022, cover fewer languages, and generally report lower and less-studied performance than text-only tasks; fusion strategies specific to code-mixed speech-text alignment remain immature.</p>
+</li>
+<li>
+<p><strong>LLMs have been evaluated mainly as (underperforming) zero-shot classifiers, not yet systematically as fine-tuned or instruction-tuned models for this domain.</strong> The dominant emerging use of LLMs is as a data-augmentation tool for smaller transformer classifiers rather than as the sentiment classifier itself; systematic study of fine-tuned open-weight LLMs (e.g., Llama-, Mistral-, or Gemma-family models) specifically adapted to Dravidian code-mixed sentiment, as opposed to prompting closed models zero-shot, remains limited.</p>
+</li>
+<li>
+<p><strong>Class imbalance is a recurring, only partially solved problem.</strong> Political and social-media sentiment datasets in particular show severe skew (imbalance ratios as high as 8:1 have been explicitly reported in 2026 work); while oversampling, focal loss, and LLM-based augmentation are being tried, no consensus best practice has emerged, and reported gains vary widely by dataset.</p>
+</li>
+<li>
+<p><strong>Explainability and interpretability research is minimal.</strong> Only a small number of studies (e.g., a 2025 SHAP-based Tamil/Malayalam sarcasm-detection study) attempt to explain model predictions; the overwhelming majority of shared-task systems report only aggregate leaderboard scores without error analysis or interpretability tooling, limiting practical trust and diagnostic insight.</p>
+</li>
+<li>
+<p><strong>Dialectal and regional variation within each language is largely unmodelled.</strong> Datasets are generally treated as if each language were monolithic, even though spoken and written Tamil, Telugu, Kannada, and Malayalam vary considerably by region; no reviewed study explicitly stratifies or evaluates robustness across dialectal variation.</p>
+</li>
+<li>
+<p><strong>Cross-lingual and intra-Dravidian transfer learning is underexplored.</strong> While zero-shot transfer from high-resource languages into single low-resource Indian languages has been studied (e.g., XLM-R zero-shot transfer for resource-poor Indian languages generally), systematic study of transfer <em>between</em> Dravidian languages themselves (e.g., using Tamil-English data to bootstrap Tulu-English or Telugu-English models, which share typological features) is rare relative to its apparent promise.</p>
+</li>
+<li>
+<p><strong>Real-world deployment considerations are absent from the literature.</strong> Virtually all reviewed work reports offline leaderboard metrics; none of the reviewed papers substantively addresses inference latency, on-device/edge deployment, continual learning as language use drifts over time, or moderation-pipeline integration — all of which matter for translating shared-task performance into production systems.</p>
+</li>
+<li>
+<p><strong>Evaluation-metric and reporting inconsistency.</strong> Some papers report only accuracy, others only macro-F1, others weighted F1; sample sizes for test sets vary considerably, and confidence intervals or statistical-significance testing are rarely reported, making it difficult to assess whether reported differences between systems are meaningful.</p>
+</li>
+<li>
+<p><strong>The emerging challenge of AI-generated code-mixed content is only just beginning to be studied.</strong> The 2025 shared task on distinguishing AI-generated from human-written Malayalam/Tamil reviews is, to date, essentially the only dedicated effort in this direction, even though the same underlying phenomenon (LLM fluency in code-mixed text) has direct implications for the integrity of future sentiment-analysis training data itself.</p>
+</li>
+</ol>
+<hr>
+<h2>9. Future Directions</h2>
+<p>Building on the gaps above, promising directions for new research include: (a) constructing a <strong>unified, versioned benchmark</strong> across all five Dravidian-adjacent languages with a consistently documented label scheme, to enable genuine longitudinal comparison; (b) targeted <strong>Telugu and Kannada dataset renewal</strong>, ideally scaled and annotated comparably to the existing Tamil/Malayalam resources; (c) <strong>sarcasm-aware and negation-aware architectures</strong> purpose-built for code-mixed text, rather than generic sentiment classifiers retrofitted after the fact; (d) systematic <strong>fine-tuning (not just prompting) of open-weight LLMs</strong> for Dravidian code-mixed sentiment, with rigorous zero-shot/few-shot/fine-tuned comparisons; (e) <strong>intra-Dravidian transfer learning</strong> studies that explicitly test whether typological closeness between, say, Tamil and Tulu, or Telugu and Kannada, can be exploited to bootstrap the lowest-resource pairs; (f) <strong>explainability-first system design</strong> (SHAP, attention visualization, counterfactual testing) as a standard reporting expectation rather than an occasional add-on; and (g) <strong>deployment-oriented evaluation</strong> — latency, robustness to distribution shift, and integration with real moderation pipelines — as a complement to leaderboard macro-F1.</p>
+<hr>
+<h2>10. Conclusion</h2>
+<p>Between 2020 and 2026, code-mixed sentiment analysis for Dravidian languages has matured from a single shared-task pilot into a sustained, multi-language, multi-modality research programme with a well-documented lineage of datasets and successive shared-task editions. Tamil and Malayalam have benefited from continuous, large-scale benchmark attention and broadening task scope (sarcasm, hope speech, political sentiment, multimodality); Kannada has stalled since 2021; Telugu has produced substantial independent research without a comparably continuous shared benchmark; and Tulu, the newest entrant, remains the least resourced and lowest-performing pair. Methodologically, the field has moved through lexicon-based methods, classical machine learning, deep sequential and convolutional architectures, and multilingual transformer fine-tuning, and is now in an early, still-unsettled phase of incorporating large language models — primarily as data-augmentation engines rather than as reliable zero-shot classifiers in their own right. The clearest opportunities for new research lie in benchmark unification, sarcasm/negation-aware modelling, genuinely code-mixed aspect-based sentiment analysis, intra-Dravidian transfer learning, explainability, and deployment-oriented evaluation — each of which remains comparatively open relative to the field's overall six-year output.</p>
+<hr>
+<h2>References</h2>
+<p>Anbukkarasi, S., &amp; Varadhaganapathy, S. (2023). Deep learning-based hate speech detection in code-mixed Tamil text. <em>IETE Journal of Research</em>, 69(11), 7893–7898.</p>
+<p>Bhat, N. S., Sambrekar, K., Bhandage, V., &amp; Niranjan, P. Y. (2026). An exhaustive review of the recent advancements in sentiment analysis on Dravidian languages. <em>Discover Applied Sciences</em>, 8, 395.</p>
+<p>Chakravarthi, B. R. (2022). Multilingual hope speech detection in English and Dravidian languages. <em>International Journal of Data Science and Analytics</em>, 14(4), 389–406.</p>
+<p>Chakravarthi, B. R. (2025). Sarcasm detection in Tamil and Malayalam YouTube comments. <em>Social Network Analysis and Mining</em>, 15(1), 72.</p>
+<p>Chakravarthi, B. R., Muralidaran, V., Priyadharshini, R., &amp; McCrae, J. P. (2020). Corpus creation for sentiment analysis in code-mixed Tamil-English text. In <em>Proceedings of the 1st Joint Workshop on Spoken Language Technologies for Under-resourced Languages and Collaboration and Computing for Under-Resourced Languages</em>.</p>
+<p>Chakravarthi, B. R., et al. (2020). A Sentiment Analysis Dataset for Code-Mixed Malayalam-English. arXiv:2006.00210.</p>
+<p>Chakravarthi, B. R., Priyadharshini, R., Muralidaran, V., Jose, N., Suryawanshi, S., Sherly, E., &amp; McCrae, J. P. (2022). DravidianCodeMix: Sentiment analysis and offensive language identification dataset for Dravidian languages in code-mixed text. <em>Language Resources and Evaluation</em>, 56(3), 765–806.</p>
+<p>Chakravarthi, B. R., Rajiakodi, S., Ponnusamy, R., Sivagnanam, B., Thakare, S. Y., &amp; Thangasamy, S. (2025). Detecting caste and migration hate speech in low-resource Tamil language. <em>Language Resources and Evaluation</em>.</p>
+<p>Chattu, K., Reddy, K. A. N., Veesam, S. B., Chirumamilla, P. S., Dinesh Babu, V., &amp; Prakash, K. (2025). Sentiment classification for Telugu using transformation-based approaches on a multi-domain dataset. <em>Scientific Reports</em>, 15, 22185.</p>
+<p>Chanda, S., et al. (2025). Sentiment analysis of code-mixed Dravidian languages leveraging pretrained model and word-level language tag. <em>Natural Language Processing</em> (Cambridge), 31(Special Issue 2), 477–499.</p>
+<p>Devi, V. S., Kannimuthu, S., &amp; Madasamy, A. K. (2024). The effect of phrase vector embedding in explainable hierarchical attention-based Tamil code-mixed hate speech and intent detection. <em>IEEE Access</em>, 12, 11316–11329.</p>
+<p>Dey, S., Thakur, S., Kandwal, A., Kumar, R., Dasgupta, S., &amp; Roy, P. P. (2024). BharatBhasaNet: Unified framework to identify Indian code mix languages. <em>IEEE Access</em>, 12, 68893–68904.</p>
+<p>Dowlagar, S., &amp; Mamidi, R. (2023). Sentiment analysis of code-mixed Telugu-English data leveraging syllable and word embeddings. <em>ACM Transactions on Asian and Low-Resource Language Information Processing</em>.</p>
+<p>G, J. L., B, P., Chakravarthi, B. R., Rajiakodi, S., B, B., Natarajan, R., &amp; Rajalakshmi, R. (2025). Overview of the Shared Task on Multimodal Hate Speech Detection in Dravidian Languages: DravidianLangTech@NAACL 2025. In <em>Proceedings of the Fifth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>.</p>
+<p>Hande, A., Hegde, S. U., &amp; Chakravarthi, B. R. (2022). Multi-task learning in under-resourced Dravidian languages. <em>Journal of Data and Information Management</em>, 4(2), 137–165.</p>
+<p>Hande, A., Priyadharshini, R., &amp; Chakravarthi, B. R. (2020). KanCMD: Kannada CodeMixed Dataset for Sentiment Analysis and Offensive Language Detection. In <em>Proceedings of the Third Workshop on Computational Modeling of People's Opinions, Personality, and Emotions in Social Media</em>, 54–63.</p>
+<p>Karunanidhi, A. P., &amp; Arumugam, P. (2026). CHMOD_777@DravidianLangTech 2026: LLM Augmented Transformer Fine-tuning for Tamil Political Sentiment Analysis. In <em>Proceedings of the Sixth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>.</p>
+<p>Kumar, A., &amp; Albuquerque, V. H. C. (2021). Sentiment analysis using XLM-R transformer and zero-shot transfer learning on resource-poor Indian languages. <em>ACM Transactions on Asian and Low-Resource Language Information Processing</em>, 20(5).</p>
+<p>Mandalam, A. V., &amp; Sharma, Y. (2021). Sentiment analysis of Dravidian code-mixed data. In <em>Proceedings of the First Workshop on Speech and Language Technologies for Dravidian Languages</em>, 46–54.</p>
+<p>McCrae, J. P. (2020). Overview of the Track on Sentiment Analysis for Dravidian Languages in Code-mixed Text. In <em>Working Notes of FIRE 2020</em>, CEUR-WS Vol. 2826, 21–24.</p>
+<p>Nguyen, D. K. P., &amp; Văn, T. Đ. (2026). PhucNguyen@DravidianLangTech 2026: Political Multiclass Sentiment Analysis with XLM-RoBERTa and Low-Rank Adaptation. In <em>Proceedings of the Sixth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>.</p>
+<p>Pillai, A. R., &amp; Arun, B. (2024). A feature fusion and detection approach using deep learning for sentimental analysis and offensive text detection from code-mixed Malayalam language. <em>Biomedical Signal Processing and Control</em>, 89, 105763.</p>
+<p>Premjith, B., Chakravarthi, B. R., Kumaresan, P. K., Rajiakodi, S., Karnati, S. P., &amp; Mangamuru, S. R. R. (2024). Findings of the Shared Task on Hate and Offensive Language Detection in Telugu Codemixed Text (HOLD-Telugu). In <em>Proceedings of the Fourth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>.</p>
+<p>Premjith, B., et al. (2025). Overview of the Shared Task on Detecting AI Generated Product Reviews in Dravidian Languages: DravidianLangTech@NAACL 2025. In <em>Proceedings of the Fifth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>.</p>
+<p>Priyadharshini, R., Chakravarthi, B. R., Thavareesan, S., Chinnappa, D., Durairaj, T., &amp; Ponnusamy, R. (2021). Overview of the DravidianCodeMix 2021 shared task on sentiment detection in Tamil, Malayalam, and Kannada. In <em>Forum for Information Retrieval Evaluation (FIRE) 2021</em>.</p>
+<p>Rajalakshmi, R., Selvaraj, S., &amp; Vasudevan, P. (2023). Hottest: Hate and offensive content identification in Tamil using transformers and enhanced stemming. <em>Computer Speech &amp; Language</em>, 78, 101464.</p>
+<p>Sambath Kumar, L., Hegde, A., Chakravarthi, B. R., Shashirekha, H., Natarajan, R., Thavareesan, S., Sakuntharaj, R., Durairaj, T., Kumaresan, P. K., &amp; Rajkumar, C. (2024). Overview of Second Shared Task on Sentiment Analysis in Code-mixed Tamil and Tulu. In <em>Proceedings of the Fourth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>, 62–70.</p>
+<p>Shanmugavadivel, K., Sathishkumar, V. E., Raja, S., Lingaiah, T. B., Neelakandan, S., &amp; Subramanian, M. (2022). Deep learning based sentiment analysis and offensive language identification on multilingual code-mixed data. <em>Scientific Reports</em>, 12, 21557.</p>
+<p>Sheth, R., Sinha, S. R., Patil, M., Beniwal, H., &amp; Singh, M. (2025). Beyond monolingual assumptions: A survey of codeswitched NLP in the era of large language models. arXiv:2510.07037.</p>
+<p>Sreelakshmi, K., Premjith, B., Chakravarthi, B. R., &amp; Soman, K. P. (2024). Detection of hate speech and offensive language codemix text in Dravidian languages using a cost-sensitive learning approach. <em>IEEE Access</em>, 12, 20064–20090.</p>
+<p>Thara, S., &amp; Poornachandran, P. (2022). Social media text analytics of Malayalam-English code-mixed using deep learning. <em>Journal of Big Data</em>, 9(1), 45.</p>
+<p>Thavareesan, S., &amp; Mahesan, S. (2021). Sentiment analysis in Tamil texts using k-means and k-nearest neighbour. In <em>Proceedings of the 10th International Conference on Information and Automation for Sustainability (ICIAfS)</em>, 48–53.</p>
+<p>Tripty, Z., Nafis, M., Chowdhury, A., Hossain, J., Ahsan, S., Das, A., &amp; Hoque, M. M. (2024). CUETSentimentSillies@DravidianLangTech-EACL2024: Transformer-based Approach for Sentiment Analysis in Tamil and Tulu Code-Mixed Texts. In <em>Proceedings of the Fourth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>, 234–239.</p>
+<p>Ullah, F., Faizullah, S., Khan, I. U., Alghamdi, T., Syed, T. A., &amp; Alkhodre, A. B. (2025). Prompt-based fine-tuning with multilingual transformers for language-independent sentiment analysis. <em>Scientific Reports</em>, 15, 20834.</p>
+<p>Vegupatti, M., Ponnusamy, K. K., Chakravarthi, B. R., Rajiakodi, S., Durairaj, T., Kumaresan, P. K., &amp; Thangasamy, S. (2026). TamilPoliSent 2026: A Shared Task Report on Multiclass Political Sentiment Analysis in Tamil. In <em>Proceedings of the Sixth Workshop on Speech, Vision, and Language Technologies for Dravidian Languages</em>, 134–143.</p>
+<p>Zeng, L., et al. (2024). Leveraging Large Language Models for Code-Mixed Data Augmentation in Sentiment Analysis. arXiv:2411.00691.</p>
+<p><em>(Additional shared-task system-description papers from DravidianLangTech 2022–2026 proceedings, and independent journal articles cited by topic in the sections above, are available in full from the ACL Anthology DravidianLangTech workshop volumes and the corresponding journal venues.)</em></p>
+
+</body></html>

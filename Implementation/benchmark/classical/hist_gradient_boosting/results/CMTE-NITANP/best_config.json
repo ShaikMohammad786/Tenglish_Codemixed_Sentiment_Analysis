@@ -1,0 +1,33 @@
+{
+  "model": "hist_gradient_boosting",
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "feature": "word11",
+  "params": {
+    "learning_rate": 0.1,
+    "max_iter": 200
+  },
+  "val_macro_f1": 0.7913,
+  "search_seed": 42,
+  "grid": [
+    {
+      "learning_rate": 0.05,
+      "max_iter": 200
+    },
+    {
+      "learning_rate": 0.05,
+      "max_iter": 400
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 200
+    },
+    {
+      "learning_rate": 0.1,
+      "max_iter": 400
+    }
+  ],
+  "frozen_at": "2026-10-19T14:17:36+00:00",
+  "hash": "c01d49bac162c1501077e68730a8be0a476f5937ff5872c465ee37a0596956fe"
+}

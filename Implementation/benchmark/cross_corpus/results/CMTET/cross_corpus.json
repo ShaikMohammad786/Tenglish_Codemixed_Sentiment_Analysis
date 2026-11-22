@@ -1,0 +1,289 @@
+{
+  "transformers/muril_lora": {
+    "feature": "google/muril-base-cased",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.6418,
+        "macro_f1": 0.6274,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6425,
+        "macro_f1": 0.6276,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.607,
+        "macro_f1": 0.589,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3769,
+        "macro_f1": 0.3693,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.6445,
+        "macro_f1": 0.6299,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8239456261822825,
+    "transfer_drop": 0.1965
+  },
+  "transformers/xlmr_lora": {
+    "feature": "xlm-roberta-base",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.6144,
+        "macro_f1": 0.5982,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6148,
+        "macro_f1": 0.5978,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.5945,
+        "macro_f1": 0.5803,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3568,
+        "macro_f1": 0.3407,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.617,
+        "macro_f1": 0.6004,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8034701975262566,
+    "transfer_drop": 0.2053
+  },
+  "transformers/indicbert_lora": {
+    "feature": "ai4bharat/IndicBERTv2-MLM-only",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.6551,
+        "macro_f1": 0.638,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6562,
+        "macro_f1": 0.6388,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.602,
+        "macro_f1": 0.5825,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3518,
+        "macro_f1": 0.3472,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.6581,
+        "macro_f1": 0.641,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8133877797636361,
+    "transfer_drop": 0.1754
+  },
+  "transformers/telugu_bert_lora": {
+    "feature": "l3cube-pune/telugu-bert",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.6464,
+        "macro_f1": 0.6334,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6471,
+        "macro_f1": 0.6337,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.6095,
+        "macro_f1": 0.5965,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3819,
+        "macro_f1": 0.3735,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.649,
+        "macro_f1": 0.6359,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8148719219922206,
+    "transfer_drop": 0.1815
+  },
+  "transformers/mbert_lora": {
+    "feature": "bert-base-multilingual-cased",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.602,
+        "macro_f1": 0.5845,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6022,
+        "macro_f1": 0.5841,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.592,
+        "macro_f1": 0.5816,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3668,
+        "macro_f1": 0.3622,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.6044,
+        "macro_f1": 0.5866,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8063678438170255,
+    "transfer_drop": 0.2219
+  },
+  "transformers/distilmbert_lora": {
+    "feature": "distilbert-base-multilingual-cased",
+    "params": {
+      "lr": 0.0004,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 16,
+      "grad_accum": 2
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.555,
+        "macro_f1": 0.5503,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.5549,
+        "macro_f1": 0.5499,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.5597,
+        "macro_f1": 0.5445,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3819,
+        "macro_f1": 0.3757,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.5567,
+        "macro_f1": 0.5518,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.807254085773943,
+    "transfer_drop": 0.257
+  },
+  "transformers/muril_fullft": {
+    "feature": "google/muril-base-cased",
+    "params": {
+      "lr": 2e-05,
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_len": 64,
+      "epochs": 10,
+      "batch_size": 8,
+      "grad_accum": 4
+    },
+    "metrics": {
+      "all": {
+        "accuracy": 0.6464,
+        "macro_f1": 0.633,
+        "n": 19868
+      },
+      "singleton": {
+        "accuracy": 0.6471,
+        "macro_f1": 0.6332,
+        "n": 19466
+      },
+      "multi_cluster": {
+        "accuracy": 0.6095,
+        "macro_f1": 0.5973,
+        "n": 402
+      },
+      "conflict_cluster": {
+        "accuracy": 0.3819,
+        "macro_f1": 0.3608,
+        "n": 199
+      },
+      "non_conflict": {
+        "accuracy": 0.649,
+        "macro_f1": 0.6354,
+        "n": 19669
+      }
+    },
+    "in_domain_macro_f1": 0.8336029423175151,
+    "transfer_drop": 0.2006
+  }
+}

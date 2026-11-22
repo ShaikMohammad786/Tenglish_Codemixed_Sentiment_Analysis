@@ -1,0 +1,62 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.8039,
+    "val_macro_f1": 0.7728,
+    "best": true
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.5947,
+    "val_macro_f1": 0.7835,
+    "best": true
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.5393,
+    "val_macro_f1": 0.7883,
+    "best": true
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.5042,
+    "val_macro_f1": 0.7875,
+    "best": false
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.4747,
+    "val_macro_f1": 0.8006,
+    "best": true
+  },
+  {
+    "epoch": 6,
+    "train_loss": 0.4538,
+    "val_macro_f1": 0.8098,
+    "best": true
+  },
+  {
+    "epoch": 7,
+    "train_loss": 0.4303,
+    "val_macro_f1": 0.7993,
+    "best": false
+  },
+  {
+    "epoch": 8,
+    "train_loss": 0.4081,
+    "val_macro_f1": 0.8108,
+    "best": true
+  },
+  {
+    "epoch": 9,
+    "train_loss": 0.3966,
+    "val_macro_f1": 0.8101,
+    "best": false
+  },
+  {
+    "epoch": 10,
+    "train_loss": 0.3807,
+    "val_macro_f1": 0.8083,
+    "best": false
+  }
+]

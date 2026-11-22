@@ -1,0 +1,160 @@
+{
+  "classical": {},
+  "deep": {},
+  "transformers": {
+    "muril_lora": {
+      "model": "muril_lora",
+      "clean": 0.8242,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.6706,
+          "delta": 0.1536
+        },
+        "voicing": {
+          "macro_f1": 0.805,
+          "delta": 0.0192
+        },
+        "aspiration": {
+          "macro_f1": 0.8228,
+          "delta": 0.0014
+        },
+        "combined": {
+          "macro_f1": 0.6348,
+          "delta": 0.1894
+        }
+      }
+    },
+    "xlmr_lora": {
+      "model": "xlmr_lora",
+      "clean": 0.8037,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.6716,
+          "delta": 0.1321
+        },
+        "voicing": {
+          "macro_f1": 0.7907,
+          "delta": 0.0131
+        },
+        "aspiration": {
+          "macro_f1": 0.8015,
+          "delta": 0.0023
+        },
+        "combined": {
+          "macro_f1": 0.6402,
+          "delta": 0.1636
+        }
+      }
+    },
+    "indicbert_lora": {
+      "model": "indicbert_lora",
+      "clean": 0.8134,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.6068,
+          "delta": 0.2066
+        },
+        "voicing": {
+          "macro_f1": 0.7988,
+          "delta": 0.0146
+        },
+        "aspiration": {
+          "macro_f1": 0.8116,
+          "delta": 0.0017
+        },
+        "combined": {
+          "macro_f1": 0.5773,
+          "delta": 0.2361
+        }
+      }
+    },
+    "telugu_bert_lora": {
+      "model": "telugu_bert_lora",
+      "clean": 0.8151,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.639,
+          "delta": 0.1761
+        },
+        "voicing": {
+          "macro_f1": 0.8051,
+          "delta": 0.01
+        },
+        "aspiration": {
+          "macro_f1": 0.8139,
+          "delta": 0.0012
+        },
+        "combined": {
+          "macro_f1": 0.6122,
+          "delta": 0.203
+        }
+      }
+    },
+    "mbert_lora": {
+      "model": "mbert_lora",
+      "clean": 0.8069,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.6667,
+          "delta": 0.1402
+        },
+        "voicing": {
+          "macro_f1": 0.787,
+          "delta": 0.0199
+        },
+        "aspiration": {
+          "macro_f1": 0.8047,
+          "delta": 0.0022
+        },
+        "combined": {
+          "macro_f1": 0.6454,
+          "delta": 0.1615
+        }
+      }
+    },
+    "distilmbert_lora": {
+      "model": "distilmbert_lora",
+      "clean": 0.8066,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.666,
+          "delta": 0.1406
+        },
+        "voicing": {
+          "macro_f1": 0.7853,
+          "delta": 0.0213
+        },
+        "aspiration": {
+          "macro_f1": 0.805,
+          "delta": 0.0016
+        },
+        "combined": {
+          "macro_f1": 0.6467,
+          "delta": 0.1599
+        }
+      }
+    },
+    "muril_fullft": {
+      "model": "muril_fullft",
+      "clean": 0.8336,
+      "variants": {
+        "vowel": {
+          "macro_f1": 0.6822,
+          "delta": 0.1514
+        },
+        "voicing": {
+          "macro_f1": 0.817,
+          "delta": 0.0166
+        },
+        "aspiration": {
+          "macro_f1": 0.8322,
+          "delta": 0.0014
+        },
+        "combined": {
+          "macro_f1": 0.6571,
+          "delta": 0.1765
+        }
+      }
+    }
+  }
+}

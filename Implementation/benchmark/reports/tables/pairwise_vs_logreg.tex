@@ -1,0 +1,26 @@
+\begin{tabular}{lrrr}
+\hline
+Model & $\Delta$ Macro-F1 & 95\% CI & McNemar $p$ (Holm) \\
+\hline
+classical/dummy & -0.6518 & [-0.6645, -0.6386] & 0.0000 \\
+classical/extra\_trees & -0.0223 & [-0.0318, -0.0128] & 0.0000 \\
+classical/hist\_gradient\_boosting & -0.0274 & [-0.0383, -0.0186] & 0.0000 \\
+classical/knn & -0.0541 & [-0.0652, -0.0424] & 0.0000 \\
+classical/lightgbm & -0.0249 & [-0.0341, -0.0156] & 0.0000 \\
+classical/linear\_svc & -0.0061 & [-0.0120, -0.0005] & 0.2488 \\
+classical/multinomial\_nb & -0.0174 & [-0.0265, -0.0074] & 0.0161 \\
+classical/random\_forest & -0.0344 & [-0.0441, -0.0238] & 0.0000 \\
+classical/soft\_voting & -0.0069 & [-0.0153, +0.0013] & 0.4485 \\
+classical/xgboost & -0.0523 & [-0.0640, -0.0416] & 0.0000 \\
+deep/bilstm & -0.0273 & [-0.0386, -0.0170] & 0.0000 \\
+deep/cnn\_bilstm & -0.0466 & [-0.0576, -0.0356] & 0.0000 \\
+deep/textcnn & -0.0402 & [-0.0511, -0.0289] & 0.0000 \\
+transformers/distilmbert\_lora & -0.0221 & [-0.0332, -0.0104] & 0.0048 \\
+transformers/indicbert\_lora & -0.0164 & [-0.0292, -0.0042] & 0.0846 \\
+transformers/mbert\_lora & -0.0235 & [-0.0356, -0.0102] & 0.0027 \\
+transformers/muril\_fullft & +0.0039 & [-0.0062, +0.0140] & 0.8158 \\
+transformers/muril\_lora & -0.0058 & [-0.0170, +0.0047] & 0.8158 \\
+transformers/telugu\_bert\_lora & -0.0147 & [-0.0263, -0.0034] & 0.1015 \\
+transformers/xlmr\_lora & -0.0264 & [-0.0389, -0.0148] & 0.0000 \\
+\hline
+\end{tabular}

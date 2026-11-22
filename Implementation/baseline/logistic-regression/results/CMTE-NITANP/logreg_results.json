@@ -1,0 +1,42 @@
+{
+  "config": {
+    "splits_dir": "datasets/splits/CMTE-NITANP",
+    "text_field": "text_clean",
+    "seed": 42,
+    "out_dir": "Implementation/baseline/logistic-regression/results/CMTE-NITANP"
+  },
+  "results": {
+    "A": {
+      "split": "A",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 16781,
+      "C": 1.0,
+      "val_macro_f1": 0.817,
+      "test_accuracy": 0.8202,
+      "test_macro_f1": 0.8204,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.7937    0.8474    0.8197      1258\n     Neutral     0.8031    0.8009    0.8020      1095\n    Positive     0.8730    0.8083    0.8394      1106\n\n    accuracy                         0.8202      3459\n   macro avg     0.8233    0.8189    0.8204      3459\nweighted avg     0.8221    0.8202    0.8204      3459\n"
+    },
+    "B": {
+      "split": "B",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "vocab": 16892,
+      "C": 1.0,
+      "val_macro_f1": 0.8083,
+      "test_accuracy": 0.8291,
+      "test_macro_f1": 0.8293,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.8044    0.8434    0.8234      1258\n     Neutral     0.8267    0.7927    0.8093      1095\n    Positive     0.8615    0.8490    0.8552      1106\n\n    accuracy                         0.8291      3459\n   macro avg     0.8308    0.8284    0.8293      3459\nweighted avg     0.8297    0.8291    0.8291      3459\n"
+    }
+  },
+  "gap": {
+    "macro_f1": -0.0089,
+    "accuracy": -0.0089
+  }
+}

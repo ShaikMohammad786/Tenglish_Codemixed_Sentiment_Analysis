@@ -1,0 +1,149 @@
+{
+  "config": {
+    "splits_dir": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/datasets/splits/CMTE-NITANP",
+    "text_field": "text_clean",
+    "model_name": "google/muril-base-cased",
+    "max_len": 64,
+    "epochs": 8,
+    "batch_size": 16,
+    "grad_accum": 2,
+    "lr": 0.0004,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.06,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "lora_targets": [
+      "query",
+      "value"
+    ],
+    "seed": 42,
+    "splits": [
+      "A",
+      "B"
+    ],
+    "out_dir": "/mnt/M/MOHAMMAD/OmarchyWinProjects/Urop/Implementation/baseline/muril/results/CMTE-NITANP"
+  },
+  "results": {
+    "A": {
+      "split": "A",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "trainable_params": 592131,
+      "total_params": 238150662,
+      "amp_dtype": "bfloat16",
+      "device": "cuda",
+      "best_val_macro_f1": 0.8182,
+      "test_accuracy": 0.815,
+      "test_macro_f1": 0.8151,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.8185    0.8068    0.8127      1258\n     Neutral     0.7886    0.8073    0.7978      1095\n    Positive     0.8379    0.8318    0.8348      1106\n\n    accuracy                         0.8150      3459\n   macro avg     0.8150    0.8153    0.8151      3459\nweighted avg     0.8152    0.8150    0.8151      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 1.0008,
+          "val_macro_f1": 0.4912
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.8007,
+          "val_macro_f1": 0.7711
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6181,
+          "val_macro_f1": 0.791
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.552,
+          "val_macro_f1": 0.7984
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.5085,
+          "val_macro_f1": 0.808
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.4806,
+          "val_macro_f1": 0.8124
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.4569,
+          "val_macro_f1": 0.814
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.4447,
+          "val_macro_f1": 0.8182
+        }
+      ]
+    },
+    "B": {
+      "split": "B",
+      "rows": {
+        "train": 27670,
+        "val": 3459,
+        "test": 3459
+      },
+      "trainable_params": 592131,
+      "total_params": 238150662,
+      "amp_dtype": "bfloat16",
+      "device": "cuda",
+      "best_val_macro_f1": 0.8098,
+      "test_accuracy": 0.8167,
+      "test_macro_f1": 0.8167,
+      "per_class": "              precision    recall  f1-score   support\n\n    Negative     0.8195    0.8084    0.8139      1258\n     Neutral     0.7879    0.7936    0.7907      1095\n    Positive     0.8422    0.8490    0.8456      1106\n\n    accuracy                         0.8167      3459\n   macro avg     0.8165    0.8170    0.8167      3459\nweighted avg     0.8167    0.8167    0.8167      3459\n",
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 1.0048,
+          "val_macro_f1": 0.42
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.839,
+          "val_macro_f1": 0.7627
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.6429,
+          "val_macro_f1": 0.7815
+        },
+        {
+          "epoch": 4,
+          "train_loss": 0.5611,
+          "val_macro_f1": 0.794
+        },
+        {
+          "epoch": 5,
+          "train_loss": 0.5211,
+          "val_macro_f1": 0.8004
+        },
+        {
+          "epoch": 6,
+          "train_loss": 0.4875,
+          "val_macro_f1": 0.8015
+        },
+        {
+          "epoch": 7,
+          "train_loss": 0.467,
+          "val_macro_f1": 0.8078
+        },
+        {
+          "epoch": 8,
+          "train_loss": 0.4544,
+          "val_macro_f1": 0.8098
+        }
+      ]
+    }
+  },
+  "gap": {
+    "macro_f1": -0.0016,
+    "accuracy": -0.0017
+  }
+}

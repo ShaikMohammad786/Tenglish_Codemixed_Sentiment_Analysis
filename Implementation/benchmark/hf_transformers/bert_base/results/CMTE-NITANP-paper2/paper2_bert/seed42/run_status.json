@@ -1,0 +1,8 @@
+{
+  "status": "running",
+  "ts": "2026-10-25T04:23:07+00:00",
+  "model": "bert_base",
+  "phase": "final",
+  "seed": 42,
+  "attempts": 1
+}

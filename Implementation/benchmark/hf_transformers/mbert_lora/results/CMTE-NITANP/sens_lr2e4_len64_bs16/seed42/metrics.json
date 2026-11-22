@@ -1,0 +1,132 @@
+{
+  "run_id": "transformers/mbert_lora/CMTE-NITANP/sens_lr2e4_len64_bs16/seed42",
+  "family": "transformers",
+  "model": "mbert_lora",
+  "phase": "sensitivity",
+  "config": "sens_lr2e4_len64_bs16",
+  "seed": 42,
+  "dataset": "CMTE-NITANP",
+  "split_name": "B",
+  "text_field": "text_clean",
+  "hf": "bert-base-multilingual-cased",
+  "full_ft": false,
+  "hyper": {
+    "lr": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_len": 64,
+    "epochs": 5,
+    "batch_size": 16,
+    "grad_accum": 2
+  },
+  "best_epoch": 5,
+  "best_val_macro_f1": 0.7976,
+  "val": {
+    "accuracy": 0.797918473547268,
+    "macro_f1": 0.7975881493135984,
+    "weighted_f1": 0.797709982874258,
+    "mcc": 0.6965315965590748,
+    "per_class": {
+      "Negative": {
+        "precision": 0.7665937272064187,
+        "recall": 0.8347895154884829,
+        "f1": 0.7992395437262357
+      },
+      "Neutral": {
+        "precision": 0.8229376257545271,
+        "recall": 0.7477148080438757,
+        "f1": 0.7835249042145593
+      },
+      "Positive": {
+        "precision": 0.8144424131627057,
+        "recall": 0.8056057866184448,
+        "f1": 0.81
+      }
+    },
+    "confusion": [
+      [
+        1051,
+        88,
+        120
+      ],
+      [
+        193,
+        818,
+        83
+      ],
+      [
+        127,
+        88,
+        891
+      ]
+    ],
+    "report": "              precision    recall  f1-score   support\n\n    Negative     0.7666    0.8348    0.7992      1259\n     Neutral     0.8229    0.7477    0.7835      1094\n    Positive     0.8144    0.8056    0.8100      1106\n\n    accuracy                         0.7979      3459\n   macro avg     0.8013    0.7960    0.7976      3459\nweighted avg     0.7997    0.7979    0.7977      3459\n",
+    "ece": 0.050111832836522804,
+    "brier": 0.29773868611167537,
+    "risk_coverage": {
+      "0.5": {
+        "coverage": 0.5001445504481064,
+        "accuracy": 0.9404624277456647,
+        "macro_f1": 0.9389985445605785
+      },
+      "0.6": {
+        "coverage": 0.5998843596415149,
+        "accuracy": 0.9195180722891566,
+        "macro_f1": 0.9190876874343917
+      },
+      "0.7": {
+        "coverage": 0.6999132697311362,
+        "accuracy": 0.8979760429574556,
+        "macro_f1": 0.8978662837883328
+      },
+      "0.8": {
+        "coverage": 0.7999421798207574,
+        "accuracy": 0.8641127574990964,
+        "macro_f1": 0.8638590117999719
+      },
+      "0.9": {
+        "coverage": 0.8999710899103788,
+        "accuracy": 0.8310311596530677,
+        "macro_f1": 0.8305318450837501
+      },
+      "1.0": {
+        "coverage": 1.0,
+        "accuracy": 0.797918473547268,
+        "macro_f1": 0.7975881493135984
+      }
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.7663,
+      "val_macro_f1": 0.7643,
+      "best": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5883,
+      "val_macro_f1": 0.7861,
+      "best": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.5452,
+      "val_macro_f1": 0.7933,
+      "best": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.5172,
+      "val_macro_f1": 0.7906,
+      "best": false
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.498,
+      "val_macro_f1": 0.7976,
+      "best": true
+    }
+  ],
+  "elapsed_s": 817.9
+}

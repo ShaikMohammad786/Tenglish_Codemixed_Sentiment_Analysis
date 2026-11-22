@@ -1,0 +1,30 @@
+[
+  {
+    "ensemble": "prior6",
+    "method": "uniform_uncalibrated",
+    "test_acc": 0.85,
+    "test_f1": 0.8501,
+    "temperatures": {
+      "muril_fullft": 1.4037,
+      "linearsvc_union": 0.9377,
+      "logreg_union": 0.9055,
+      "muril_lora": 1.2937,
+      "soft_voting": 0.8008,
+      "linear_svc": 0.9513
+    }
+  },
+  {
+    "ensemble": "prior6",
+    "method": "uniform_calibrated",
+    "test_acc": 0.8502,
+    "test_f1": 0.8503,
+    "temperatures": {
+      "muril_fullft": 1.4037,
+      "linearsvc_union": 0.9377,
+      "logreg_union": 0.9055,
+      "muril_lora": 1.2937,
+      "soft_voting": 0.8008,
+      "linear_svc": 0.9513
+    }
+  }
+]

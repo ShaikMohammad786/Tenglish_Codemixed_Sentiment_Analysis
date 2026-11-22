@@ -1,0 +1,30 @@
+[
+  {
+    "params": {
+      "learning_rate": 0.05,
+      "max_iter": 200
+    },
+    "val_macro_f1": 0.7894
+  },
+  {
+    "params": {
+      "learning_rate": 0.05,
+      "max_iter": 400
+    },
+    "val_macro_f1": 0.7891
+  },
+  {
+    "params": {
+      "learning_rate": 0.1,
+      "max_iter": 200
+    },
+    "val_macro_f1": 0.7913
+  },
+  {
+    "params": {
+      "learning_rate": 0.1,
+      "max_iter": 400
+    },
+    "val_macro_f1": 0.7913
+  }
+]
